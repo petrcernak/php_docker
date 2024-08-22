@@ -1,0 +1,5974 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.7 (Homebrew)
+-- Dumped by pg_dump version 14.1
+
+-- Started on 2024-08-22 16:47:34 CEST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 209 (class 1259 OID 16386)
+-- Name: address_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.address_id_seq
+    START WITH 303
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 210 (class 1259 OID 16387)
+-- Name: address; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.address (
+    id integer DEFAULT nextval('public.address_id_seq'::regclass) NOT NULL,
+    street character varying(200),
+    number character varying(20) NOT NULL,
+    zip character varying(10),
+    city character varying NOT NULL,
+    id_country integer NOT NULL,
+    locality character varying(150),
+    lat double precision,
+    lng double precision,
+    id_group integer NOT NULL
+);
+
+
+--
+-- TOC entry 211 (class 1259 OID 16393)
+-- Name: adjustment_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.adjustment_id_seq
+    START WITH 149
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 212 (class 1259 OID 16394)
+-- Name: adjustment; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.adjustment (
+    id integer DEFAULT nextval('public.adjustment_id_seq'::regclass) NOT NULL,
+    id_budgetitem integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    description character varying NOT NULL,
+    note character varying,
+    date bigint NOT NULL
+);
+
+
+--
+-- TOC entry 213 (class 1259 OID 16401)
+-- Name: amendment_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.amendment_id_seq
+    START WITH 18
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 214 (class 1259 OID 16402)
+-- Name: amendment; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.amendment (
+    id integer DEFAULT nextval('public.amendment_id_seq'::regclass) NOT NULL,
+    id_contract integer NOT NULL,
+    date bigint NOT NULL,
+    code character varying(20) NOT NULL,
+    description character varying(150) NOT NULL,
+    no smallint NOT NULL
+);
+
+
+--
+-- TOC entry 215 (class 1259 OID 16406)
+-- Name: amendmentitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.amendmentitem_id_seq
+    START WITH 31
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 216 (class 1259 OID 16407)
+-- Name: amendmentitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.amendmentitem (
+    id integer DEFAULT nextval('public.amendmentitem_id_seq'::regclass) NOT NULL,
+    id_contractitem integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    description character varying NOT NULL,
+    note character varying,
+    id_amendment integer NOT NULL
+);
+
+
+--
+-- TOC entry 217 (class 1259 OID 16414)
+-- Name: anticipated_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.anticipated_id_seq
+    START WITH 49
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 218 (class 1259 OID 16415)
+-- Name: anticipated; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.anticipated (
+    id integer DEFAULT nextval('public.anticipated_id_seq'::regclass) NOT NULL,
+    id_budgetitem integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    description character varying NOT NULL,
+    note character varying,
+    date bigint NOT NULL
+);
+
+
+--
+-- TOC entry 219 (class 1259 OID 16422)
+-- Name: boq_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.boq_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 220 (class 1259 OID 16423)
+-- Name: boq; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.boq (
+    id integer DEFAULT nextval('public.boq_id_seq'::regclass) NOT NULL,
+    id_project integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    date bigint NOT NULL,
+    note character varying
+);
+
+
+--
+-- TOC entry 221 (class 1259 OID 16429)
+-- Name: boqcategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.boqcategory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 222 (class 1259 OID 16430)
+-- Name: boqcategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.boqcategory (
+    id integer DEFAULT nextval('public.boqcategory_id_seq'::regclass) NOT NULL,
+    id_boq integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    id_predecessor integer,
+    level smallint DEFAULT 1 NOT NULL,
+    id_projectobject integer NOT NULL
+);
+
+
+--
+-- TOC entry 223 (class 1259 OID 16437)
+-- Name: boqitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.boqitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 224 (class 1259 OID 16438)
+-- Name: boqitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.boqitem (
+    id integer DEFAULT nextval('public.boqitem_id_seq'::regclass) NOT NULL,
+    id_boq integer NOT NULL,
+    id_category integer NOT NULL,
+    quantity double precision DEFAULT 0 NOT NULL,
+    id_unit integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    id_f2 integer,
+    consider boolean DEFAULT true NOT NULL
+);
+
+
+--
+-- TOC entry 225 (class 1259 OID 16445)
+-- Name: budget_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budget_id_seq
+    START WITH 474
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 226 (class 1259 OID 16446)
+-- Name: budget; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budget (
+    id integer DEFAULT nextval('public.budget_id_seq'::regclass) NOT NULL,
+    id_project integer NOT NULL,
+    code character varying(100) NOT NULL,
+    name character varying(150) NOT NULL,
+    date bigint NOT NULL,
+    id_currency smallint DEFAULT 1 NOT NULL,
+    nformat smallint DEFAULT 0,
+    entitytype smallint DEFAULT 0,
+    level smallint DEFAULT 1
+);
+
+
+--
+-- TOC entry 227 (class 1259 OID 16454)
+-- Name: budgetcategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budgetcategory_id_seq
+    START WITH 2176
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 228 (class 1259 OID 16455)
+-- Name: budgetcategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budgetcategory (
+    id integer DEFAULT nextval('public.budgetcategory_id_seq'::regclass) NOT NULL,
+    name character varying(50) NOT NULL,
+    code character varying(10) NOT NULL,
+    id_predecessor integer,
+    id_budget integer NOT NULL,
+    level smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 229 (class 1259 OID 16460)
+-- Name: budgetcontract_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budgetcontract_id_seq
+    START WITH 1091
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 230 (class 1259 OID 16461)
+-- Name: budgetcontract; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budgetcontract (
+    id integer DEFAULT nextval('public.budgetcontract_id_seq'::regclass) NOT NULL,
+    id_budget integer NOT NULL,
+    id_contract integer NOT NULL,
+    er real DEFAULT 1
+);
+
+
+--
+-- TOC entry 231 (class 1259 OID 16466)
+-- Name: budgetinvoice_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budgetinvoice_id_seq
+    START WITH 1746
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 232 (class 1259 OID 16467)
+-- Name: budgetinvoice; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budgetinvoice (
+    id integer DEFAULT nextval('public.budgetinvoice_id_seq'::regclass) NOT NULL,
+    id_budget integer NOT NULL,
+    id_invoice integer NOT NULL,
+    er real DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 233 (class 1259 OID 16472)
+-- Name: budgetitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budgetitem_id_seq
+    START WITH 7931
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 234 (class 1259 OID 16473)
+-- Name: budgetitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budgetitem (
+    id integer DEFAULT nextval('public.budgetitem_id_seq'::regclass) NOT NULL,
+    id_budget integer NOT NULL,
+    code character varying(100) NOT NULL,
+    name character varying(150) NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    zero boolean DEFAULT true NOT NULL,
+    id_category integer NOT NULL,
+    note character varying,
+    indexation double precision DEFAULT 0.0 NOT NULL
+);
+
+
+--
+-- TOC entry 235 (class 1259 OID 16481)
+-- Name: budgetitemcontractitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budgetitemcontractitem_id_seq
+    START WITH 1434
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 236 (class 1259 OID 16482)
+-- Name: budgetitemcontractitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budgetitemcontractitem (
+    id integer DEFAULT nextval('public.budgetitemcontractitem_id_seq'::regclass) NOT NULL,
+    id_budgetitem integer NOT NULL,
+    id_contractitem integer NOT NULL
+);
+
+
+--
+-- TOC entry 405 (class 1259 OID 43678)
+-- Name: budgetitemtimescheduleitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budgetitemtimescheduleitem (
+    id integer NOT NULL,
+    id_budgetitem integer NOT NULL,
+    id_timescheduleitem integer NOT NULL
+);
+
+
+--
+-- TOC entry 404 (class 1259 OID 43677)
+-- Name: budgetitemtimescheduleitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budgetitemtimescheduleitem_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4688 (class 0 OID 0)
+-- Dependencies: 404
+-- Name: budgetitemtimescheduleitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.budgetitemtimescheduleitem_id_seq OWNED BY public.budgetitemtimescheduleitem.id;
+
+
+--
+-- TOC entry 403 (class 1259 OID 43658)
+-- Name: budgettimeschedule; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.budgettimeschedule (
+    id integer NOT NULL,
+    id_budget integer NOT NULL,
+    id_timeschedule integer NOT NULL
+);
+
+
+--
+-- TOC entry 402 (class 1259 OID 43657)
+-- Name: budgettimeschedule_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.budgettimeschedule_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4689 (class 0 OID 0)
+-- Dependencies: 402
+-- Name: budgettimeschedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.budgettimeschedule_id_seq OWNED BY public.budgettimeschedule.id;
+
+
+--
+-- TOC entry 237 (class 1259 OID 16486)
+-- Name: calculation_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.calculation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 238 (class 1259 OID 16487)
+-- Name: calculation; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.calculation (
+    id integer DEFAULT nextval('public.calculation_id_seq'::regclass) NOT NULL,
+    id_costestimate integer NOT NULL,
+    name character varying NOT NULL,
+    id_unit integer NOT NULL
+);
+
+
+--
+-- TOC entry 239 (class 1259 OID 16493)
+-- Name: calculationitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.calculationitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 240 (class 1259 OID 16494)
+-- Name: calculationitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.calculationitem (
+    id integer DEFAULT nextval('public.calculationitem_id_seq'::regclass) NOT NULL,
+    id_calculation integer NOT NULL,
+    quantity double precision DEFAULT 0 NOT NULL,
+    coef double precision DEFAULT 1 NOT NULL,
+    name character varying NOT NULL,
+    "position" integer
+);
+
+
+--
+-- TOC entry 241 (class 1259 OID 16502)
+-- Name: canticipated; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.canticipated (
+    id integer NOT NULL,
+    date bigint NOT NULL,
+    id_contractitem integer NOT NULL,
+    amount double precision DEFAULT 0,
+    description character varying,
+    code character varying,
+    note character varying
+);
+
+
+--
+-- TOC entry 242 (class 1259 OID 16508)
+-- Name: canticipated_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.canticipated_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4690 (class 0 OID 0)
+-- Dependencies: 242
+-- Name: canticipated_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.canticipated_id_seq OWNED BY public.canticipated.id;
+
+
+--
+-- TOC entry 243 (class 1259 OID 16509)
+-- Name: cashflow_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cashflow_id_seq
+    START WITH 8
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 244 (class 1259 OID 16510)
+-- Name: cashflow; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cashflow (
+    id integer DEFAULT nextval('public.cashflow_id_seq'::regclass) NOT NULL,
+    code character varying(20),
+    name character varying(150),
+    id_budget integer NOT NULL,
+    date bigint,
+    startdate bigint,
+    enddate bigint
+);
+
+
+--
+-- TOC entry 245 (class 1259 OID 16514)
+-- Name: cashflowanticipated_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cashflowanticipated_id_seq
+    START WITH 2
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 246 (class 1259 OID 16515)
+-- Name: cashflowanticipated; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cashflowanticipated (
+    id integer DEFAULT nextval('public.cashflowanticipated_id_seq'::regclass) NOT NULL,
+    id_cashflowitem integer NOT NULL,
+    id_budgetitem integer NOT NULL,
+    amount double precision,
+    note character varying
+);
+
+
+--
+-- TOC entry 247 (class 1259 OID 16521)
+-- Name: cashflowcontract_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cashflowcontract_id_seq
+    START WITH 728
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 248 (class 1259 OID 16522)
+-- Name: cashflowcontract; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cashflowcontract (
+    id integer DEFAULT nextval('public.cashflowcontract_id_seq'::regclass) NOT NULL,
+    id_cashflowitem integer NOT NULL,
+    id_contractitem integer NOT NULL,
+    amount double precision,
+    note character varying
+);
+
+
+--
+-- TOC entry 249 (class 1259 OID 16528)
+-- Name: cashflowitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cashflowitem_id_seq
+    START WITH 390
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 250 (class 1259 OID 16529)
+-- Name: cashflowitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cashflowitem (
+    id integer DEFAULT nextval('public.cashflowitem_id_seq'::regclass) NOT NULL,
+    month smallint,
+    year integer,
+    id_cashflow integer NOT NULL,
+    day smallint
+);
+
+
+--
+-- TOC entry 251 (class 1259 OID 16533)
+-- Name: cashflowvaluetoplace_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cashflowvaluetoplace_id_seq
+    START WITH 2
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 252 (class 1259 OID 16534)
+-- Name: cashflowvaluetoplace; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cashflowvaluetoplace (
+    id integer DEFAULT nextval('public.cashflowvaluetoplace_id_seq'::regclass) NOT NULL,
+    id_cashflowitem integer NOT NULL,
+    id_budgetitem integer NOT NULL,
+    amount double precision,
+    note character varying
+);
+
+
+--
+-- TOC entry 253 (class 1259 OID 16540)
+-- Name: changeorder_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.changeorder_id_seq
+    START WITH 10
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 254 (class 1259 OID 16541)
+-- Name: changeorder; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.changeorder (
+    id integer DEFAULT nextval('public.changeorder_id_seq'::regclass) NOT NULL,
+    date bigint NOT NULL,
+    code character varying(20) NOT NULL,
+    description character varying(150) NOT NULL,
+    id_contract integer NOT NULL,
+    id_amendment integer,
+    no smallint DEFAULT 0 NOT NULL
+);
+
+
+--
+-- TOC entry 255 (class 1259 OID 16546)
+-- Name: changeorderitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.changeorderitem_id_seq
+    START WITH 9
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 256 (class 1259 OID 16547)
+-- Name: changeorderitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.changeorderitem (
+    id integer DEFAULT nextval('public.changeorderitem_id_seq'::regclass) NOT NULL,
+    id_contractitem integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    description character varying NOT NULL,
+    note character varying,
+    id_changeorder integer NOT NULL
+);
+
+
+--
+-- TOC entry 257 (class 1259 OID 16554)
+-- Name: changerequest; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.changerequest (
+    id integer NOT NULL,
+    no integer DEFAULT 0 NOT NULL,
+    code character varying NOT NULL,
+    id_contract integer NOT NULL,
+    date bigint NOT NULL,
+    reason character varying,
+    description character varying NOT NULL,
+    status smallint,
+    countin boolean DEFAULT true,
+    id_company integer NOT NULL,
+    id_changeorder integer
+);
+
+
+--
+-- TOC entry 258 (class 1259 OID 16561)
+-- Name: changerequest_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.changerequest_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4691 (class 0 OID 0)
+-- Dependencies: 258
+-- Name: changerequest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.changerequest_id_seq OWNED BY public.changerequest.id;
+
+
+--
+-- TOC entry 259 (class 1259 OID 16562)
+-- Name: changerequestitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.changerequestitem (
+    id integer NOT NULL,
+    id_changerequest integer NOT NULL,
+    id_contractitem integer NOT NULL,
+    description character varying NOT NULL,
+    note character varying,
+    countin boolean DEFAULT true
+);
+
+
+--
+-- TOC entry 260 (class 1259 OID 16568)
+-- Name: changerequestitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.changerequestitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4692 (class 0 OID 0)
+-- Dependencies: 260
+-- Name: changerequestitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.changerequestitem_id_seq OWNED BY public.changerequestitem.id;
+
+
+--
+-- TOC entry 261 (class 1259 OID 16569)
+-- Name: changerequestitemrevision; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.changerequestitemrevision (
+    id integer NOT NULL,
+    id_changerequestitem integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    amountcontractor double precision,
+    amountclient double precision,
+    revision smallint DEFAULT 0 NOT NULL,
+    countin boolean,
+    date bigint NOT NULL,
+    note character varying
+);
+
+
+--
+-- TOC entry 262 (class 1259 OID 16576)
+-- Name: changerequestitemrevision_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.changerequestitemrevision_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4693 (class 0 OID 0)
+-- Dependencies: 262
+-- Name: changerequestitemrevision_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.changerequestitemrevision_id_seq OWNED BY public.changerequestitemrevision.id;
+
+
+--
+-- TOC entry 263 (class 1259 OID 16577)
+-- Name: company_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.company_id_seq
+    START WITH 494
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 264 (class 1259 OID 16578)
+-- Name: company; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.company (
+    id integer DEFAULT nextval('public.company_id_seq'::regclass) NOT NULL,
+    name character varying(200) NOT NULL,
+    regno character varying(50),
+    code character varying(50),
+    taxregno character varying(50),
+    active boolean DEFAULT true,
+    email character varying(100),
+    url character varying(150),
+    phone character varying(20),
+    fax character varying(20),
+    accountno character varying(15),
+    id_bank integer,
+    id_group integer NOT NULL
+);
+
+
+--
+-- TOC entry 265 (class 1259 OID 16585)
+-- Name: companyaddress_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.companyaddress_id_seq
+    START WITH 287
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 266 (class 1259 OID 16586)
+-- Name: companyaddress; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.companyaddress (
+    id integer DEFAULT nextval('public.companyaddress_id_seq'::regclass) NOT NULL,
+    id_company integer NOT NULL,
+    id_address integer NOT NULL,
+    seat boolean DEFAULT true,
+    correspondence boolean DEFAULT true,
+    active boolean DEFAULT true
+);
+
+
+--
+-- TOC entry 267 (class 1259 OID 16593)
+-- Name: companytrade_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.companytrade_id_seq
+    START WITH 35
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 268 (class 1259 OID 16594)
+-- Name: companytrade; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.companytrade (
+    id integer DEFAULT nextval('public.companytrade_id_seq'::regclass) NOT NULL,
+    id_trade integer NOT NULL,
+    id_company integer NOT NULL,
+    note character varying(100)
+);
+
+
+--
+-- TOC entry 269 (class 1259 OID 16598)
+-- Name: contract_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.contract_id_seq
+    START WITH 971
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 270 (class 1259 OID 16599)
+-- Name: contract; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.contract (
+    id integer DEFAULT nextval('public.contract_id_seq'::regclass) NOT NULL,
+    id_project integer NOT NULL,
+    name character varying NOT NULL,
+    code character varying(20) NOT NULL,
+    description character varying(150),
+    note character varying(150),
+    id_currency smallint NOT NULL,
+    id_company integer NOT NULL,
+    date bigint NOT NULL,
+    retentionreceivedactive boolean DEFAULT false,
+    retentionratereceived double precision,
+    retentionissuedactive boolean DEFAULT false,
+    retentionrateissued double precision,
+    direction smallint DEFAULT 1,
+    entitytype smallint DEFAULT 0 NOT NULL,
+    id_predecessor integer,
+    level smallint DEFAULT 1,
+    retentionroundtype smallint DEFAULT 1,
+    retentionmethod smallint DEFAULT 2,
+    retentionroundnumber smallint DEFAULT 0,
+    pbond boolean DEFAULT false,
+    pbondvalue double precision,
+    maturity smallint,
+    vatreceivedactive boolean DEFAULT false,
+    vatissuedactive boolean DEFAULT false,
+    vatratereceived double precision,
+    vatrateissued double precision,
+    vatroundtype smallint DEFAULT 1,
+    vatmethod smallint DEFAULT 2,
+    vatroundnumber smallint DEFAULT 0
+);
+
+
+--
+-- TOC entry 271 (class 1259 OID 16617)
+-- Name: contractcategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.contractcategory_id_seq
+    START WITH 1028
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 272 (class 1259 OID 16618)
+-- Name: contractcategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.contractcategory (
+    id integer DEFAULT nextval('public.contractcategory_id_seq'::regclass) NOT NULL,
+    name character varying(50) NOT NULL,
+    code character varying(20) NOT NULL,
+    id_predecessor integer,
+    id_contract integer NOT NULL,
+    level smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 273 (class 1259 OID 16623)
+-- Name: contractitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.contractitem_id_seq
+    START WITH 3127
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 274 (class 1259 OID 16624)
+-- Name: contractitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.contractitem (
+    id integer DEFAULT nextval('public.contractitem_id_seq'::regclass) NOT NULL,
+    id_contract integer NOT NULL,
+    code character varying(100) NOT NULL,
+    name character varying(150) NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    id_category integer NOT NULL,
+    retentionratereceived double precision DEFAULT 0,
+    retentionrateissued double precision DEFAULT 0,
+    vatratereceived double precision DEFAULT 0,
+    vatrateissued double precision DEFAULT 0
+);
+
+
+--
+-- TOC entry 275 (class 1259 OID 16633)
+-- Name: costestimate_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.costestimate_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 276 (class 1259 OID 16634)
+-- Name: costestimate; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.costestimate (
+    id integer DEFAULT nextval('public.costestimate_id_seq'::regclass) NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    date bigint NOT NULL,
+    id_project integer NOT NULL,
+    id_currency smallint NOT NULL,
+    prelims double precision DEFAULT 9 NOT NULL,
+    contingency double precision DEFAULT 5 NOT NULL,
+    id_targetcurrency smallint NOT NULL,
+    exrate double precision DEFAULT 1 NOT NULL,
+    note character varying
+);
+
+
+--
+-- TOC entry 4694 (class 0 OID 0)
+-- Dependencies: 276
+-- Name: TABLE costestimate; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.costestimate IS 'Cost estimate';
+
+
+--
+-- TOC entry 4695 (class 0 OID 0)
+-- Dependencies: 276
+-- Name: COLUMN costestimate.prelims; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.costestimate.prelims IS 'in percent i.e. 9.5 not 0.095';
+
+
+--
+-- TOC entry 4696 (class 0 OID 0)
+-- Dependencies: 276
+-- Name: COLUMN costestimate.contingency; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.costestimate.contingency IS 'in percent 5 not 0.05';
+
+
+--
+-- TOC entry 277 (class 1259 OID 16643)
+-- Name: costestimatecategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.costestimatecategory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 278 (class 1259 OID 16644)
+-- Name: costestimatecategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.costestimatecategory (
+    id integer DEFAULT nextval('public.costestimatecategory_id_seq'::regclass) NOT NULL,
+    id_costestimate integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    id_predecessor integer,
+    level smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 279 (class 1259 OID 16651)
+-- Name: costestimateitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.costestimateitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 280 (class 1259 OID 16652)
+-- Name: costestimateitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.costestimateitem (
+    id integer DEFAULT nextval('public.costestimateitem_id_seq'::regclass) NOT NULL,
+    id_costestimate integer NOT NULL,
+    id_category integer NOT NULL,
+    quantity double precision DEFAULT 0 NOT NULL,
+    id_unit integer NOT NULL,
+    unitprice double precision DEFAULT 0 NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    prelims double precision DEFAULT 0 NOT NULL,
+    contingency double precision DEFAULT 0 NOT NULL,
+    id_predefinedquantity integer,
+    id_predefinedunitprice integer
+);
+
+
+--
+-- TOC entry 4697 (class 0 OID 0)
+-- Dependencies: 280
+-- Name: TABLE costestimateitem; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.costestimateitem IS 'Cost Estimate Item ';
+
+
+--
+-- TOC entry 281 (class 1259 OID 16662)
+-- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.countries_id_seq
+    START WITH 250
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 282 (class 1259 OID 16663)
+-- Name: countries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.countries (
+    id integer DEFAULT nextval('public.countries_id_seq'::regclass) NOT NULL,
+    name character varying(70) NOT NULL,
+    code character varying(3) NOT NULL
+);
+
+
+--
+-- TOC entry 283 (class 1259 OID 16667)
+-- Name: currency; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.currency (
+    id integer NOT NULL,
+    code character varying(3) NOT NULL,
+    name character varying(25) NOT NULL
+);
+
+
+--
+-- TOC entry 284 (class 1259 OID 16670)
+-- Name: downpayment_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.downpayment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 285 (class 1259 OID 16671)
+-- Name: downpayment; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.downpayment (
+    id integer DEFAULT nextval('public.downpayment_id_seq'::regclass) NOT NULL,
+    no character varying(50) NOT NULL,
+    id_contract integer NOT NULL,
+    description character varying(150),
+    issued bigint,
+    due bigint,
+    paid bigint,
+    sendby integer NOT NULL,
+    sendto integer NOT NULL,
+    status smallint,
+    note character varying,
+    amount double precision
+);
+
+
+--
+-- TOC entry 286 (class 1259 OID 16677)
+-- Name: downpaymentitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.downpaymentitem_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 287 (class 1259 OID 16678)
+-- Name: downpaymentitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.downpaymentitem (
+    id integer DEFAULT nextval('public.downpaymentitem_id_seq'::regclass) NOT NULL,
+    id_invoice integer NOT NULL,
+    amount double precision,
+    id_downpayment integer NOT NULL
+);
+
+
+--
+-- TOC entry 288 (class 1259 OID 16682)
+-- Name: f2_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.f2_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 289 (class 1259 OID 16683)
+-- Name: f2; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.f2 (
+    id integer DEFAULT nextval('public.f2_id_seq'::regclass) NOT NULL,
+    description character varying NOT NULL,
+    round smallint DEFAULT 2
+);
+
+
+--
+-- TOC entry 4698 (class 0 OID 0)
+-- Dependencies: 289
+-- Name: TABLE f2; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.f2 IS 'id_model
+1 - BoqItem
+2 - CostEstimateItem
+';
+
+
+--
+-- TOC entry 290 (class 1259 OID 16690)
+-- Name: f2item_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.f2item_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 291 (class 1259 OID 16691)
+-- Name: f2item; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.f2item (
+    id integer DEFAULT nextval('public.f2item_id_seq'::regclass) NOT NULL,
+    id_f2 integer NOT NULL,
+    quantity double precision,
+    operator smallint NOT NULL,
+    id_twin integer,
+    twinoperator smallint,
+    "position" integer NOT NULL,
+    twinorder smallint DEFAULT 1
+);
+
+
+--
+-- TOC entry 4699 (class 0 OID 0)
+-- Dependencies: 291
+-- Name: TABLE f2item; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.f2item IS '1       +
+2       *
+3       -
+4       /';
+
+
+--
+-- TOC entry 4700 (class 0 OID 0)
+-- Dependencies: 291
+-- Name: COLUMN f2item.twinorder; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.f2item.twinorder IS '1 - first twin then quantity e.g. x - 10 (default)
+2 - first quantity then twin e.g. 2/y';
+
+
+--
+-- TOC entry 292 (class 1259 OID 16696)
+-- Name: file_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.file_id_seq
+    START WITH 1951
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 293 (class 1259 OID 16697)
+-- Name: file; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.file (
+    id integer DEFAULT nextval('public.file_id_seq'::regclass) NOT NULL,
+    id_project integer NOT NULL,
+    originalname character varying(150) NOT NULL,
+    name character varying(250) NOT NULL,
+    description character varying(120),
+    note character varying(150),
+    id_dbasetable integer NOT NULL,
+    id_record integer NOT NULL,
+    size integer DEFAULT 0 NOT NULL,
+    extension character varying(8) NOT NULL,
+    date bigint NOT NULL,
+    id_group integer NOT NULL,
+    id_category integer NOT NULL
+);
+
+
+--
+-- TOC entry 294 (class 1259 OID 16704)
+-- Name: filecategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.filecategory_id_seq
+    START WITH 38147
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 295 (class 1259 OID 16705)
+-- Name: filecategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.filecategory (
+    id integer DEFAULT nextval('public.filecategory_id_seq'::regclass) NOT NULL,
+    name character varying(150) NOT NULL,
+    code character varying(10) NOT NULL,
+    id_predecessor integer,
+    id_group integer NOT NULL,
+    level smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 296 (class 1259 OID 16710)
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.groups_id_seq
+    START WITH 13
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 297 (class 1259 OID 16711)
+-- Name: groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.groups (
+    id integer DEFAULT nextval('public.groups_id_seq'::regclass) NOT NULL,
+    name character varying(50) NOT NULL,
+    id_currency smallint NOT NULL,
+    code character varying NOT NULL,
+    id_country integer DEFAULT 56 NOT NULL
+);
+
+
+--
+-- TOC entry 298 (class 1259 OID 16718)
+-- Name: interim_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.interim_id_seq
+    START WITH 9
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 299 (class 1259 OID 16719)
+-- Name: interim; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.interim (
+    id integer DEFAULT nextval('public.interim_id_seq'::regclass) NOT NULL,
+    id_contract integer NOT NULL,
+    no integer NOT NULL,
+    startmonth integer,
+    startyear integer,
+    id_user integer NOT NULL,
+    date bigint NOT NULL,
+    endmonth integer,
+    endyear integer,
+    id_invoice integer,
+    interimtype smallint
+);
+
+
+--
+-- TOC entry 300 (class 1259 OID 16723)
+-- Name: interimitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.interimitem_id_seq
+    START WITH 18
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 301 (class 1259 OID 16724)
+-- Name: interimitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.interimitem (
+    id integer DEFAULT nextval('public.interimitem_id_seq'::regclass) NOT NULL,
+    id_interim integer NOT NULL,
+    id_contractitem integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    invoiced double precision DEFAULT 0 NOT NULL,
+    toinvoice double precision DEFAULT 0 NOT NULL
+);
+
+
+--
+-- TOC entry 302 (class 1259 OID 16731)
+-- Name: internals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.internals (
+    id integer NOT NULL,
+    id_group integer NOT NULL,
+    timesheet boolean DEFAULT false NOT NULL,
+    workinghours double precision DEFAULT 8 NOT NULL,
+    holiday double precision DEFAULT 25 NOT NULL,
+    illness double precision DEFAULT 4 NOT NULL,
+    overhead double precision DEFAULT 10 NOT NULL,
+    other double precision DEFAULT 10 NOT NULL,
+    ratio double precision DEFAULT 0.95 NOT NULL
+);
+
+
+--
+-- TOC entry 303 (class 1259 OID 16741)
+-- Name: internals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.internals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4701 (class 0 OID 0)
+-- Dependencies: 303
+-- Name: internals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.internals_id_seq OWNED BY public.internals.id;
+
+
+--
+-- TOC entry 304 (class 1259 OID 16742)
+-- Name: invoice_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.invoice_id_seq
+    START WITH 1564
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 305 (class 1259 OID 16743)
+-- Name: invoice; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.invoice (
+    id integer DEFAULT nextval('public.invoice_id_seq'::regclass) NOT NULL,
+    no character varying(50) NOT NULL,
+    id_contract integer NOT NULL,
+    description character varying(150) NOT NULL,
+    issued bigint,
+    taxdate bigint,
+    due bigint,
+    paid bigint,
+    sendby integer NOT NULL,
+    sendto integer NOT NULL,
+    type smallint DEFAULT 2,
+    status smallint,
+    note character varying
+);
+
+
+--
+-- TOC entry 306 (class 1259 OID 16750)
+-- Name: invoiceitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.invoiceitem_id_seq
+    START WITH 1659
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 307 (class 1259 OID 16751)
+-- Name: invoiceitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.invoiceitem (
+    id integer DEFAULT nextval('public.invoiceitem_id_seq'::regclass) NOT NULL,
+    id_invoice integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    id_contractitem integer NOT NULL,
+    note character varying
+);
+
+
+--
+-- TOC entry 308 (class 1259 OID 16758)
+-- Name: land_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.land_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 309 (class 1259 OID 16759)
+-- Name: land; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.land (
+    id integer DEFAULT nextval('public.land_id_seq'::regclass) NOT NULL,
+    code character varying NOT NULL,
+    area double precision DEFAULT 0 NOT NULL,
+    status smallint DEFAULT 2 NOT NULL,
+    id_project integer NOT NULL
+);
+
+
+--
+-- TOC entry 4702 (class 0 OID 0)
+-- Dependencies: 309
+-- Name: COLUMN land.status; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.land.status IS '1 - past
+2 - current
+3 - future';
+
+
+--
+-- TOC entry 310 (class 1259 OID 16767)
+-- Name: language_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.language_id_seq
+    START WITH 4
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 311 (class 1259 OID 16768)
+-- Name: language; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.language (
+    id integer DEFAULT nextval('public.language_id_seq'::regclass) NOT NULL,
+    code character varying(3) NOT NULL
+);
+
+
+--
+-- TOC entry 312 (class 1259 OID 16772)
+-- Name: milestone_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.milestone_id_seq
+    START WITH 2
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 313 (class 1259 OID 16773)
+-- Name: milestone; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.milestone (
+    id integer DEFAULT nextval('public.milestone_id_seq'::regclass) NOT NULL,
+    code character varying(10) NOT NULL,
+    description character varying(150) NOT NULL,
+    scheduleddate bigint,
+    completed boolean,
+    completeddate bigint,
+    id_milestonetype smallint NOT NULL,
+    id_project integer NOT NULL
+);
+
+
+--
+-- TOC entry 314 (class 1259 OID 16777)
+-- Name: milestonetype_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.milestonetype_id_seq
+    START WITH 8
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 315 (class 1259 OID 16778)
+-- Name: milestonetype; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.milestonetype (
+    id integer DEFAULT nextval('public.milestonetype_id_seq'::regclass) NOT NULL,
+    code character varying(10) NOT NULL,
+    name character varying(50) NOT NULL
+);
+
+
+--
+-- TOC entry 316 (class 1259 OID 16782)
+-- Name: object; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.object (
+    id integer NOT NULL,
+    id_project integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    type smallint DEFAULT 1 NOT NULL,
+    id_predecessor integer,
+    note character varying,
+    area double precision,
+    gla double precision,
+    id_table integer NOT NULL,
+    id_objectcode integer NOT NULL
+);
+
+
+--
+-- TOC entry 317 (class 1259 OID 16788)
+-- Name: object_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.object_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4703 (class 0 OID 0)
+-- Dependencies: 317
+-- Name: object_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.object_id_seq OWNED BY public.object.id;
+
+
+--
+-- TOC entry 318 (class 1259 OID 16789)
+-- Name: objectcode; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.objectcode (
+    id integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    id_project integer NOT NULL,
+    type smallint DEFAULT 1 NOT NULL,
+    gla boolean
+);
+
+
+--
+-- TOC entry 319 (class 1259 OID 16795)
+-- Name: objectcode_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.objectcode_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4704 (class 0 OID 0)
+-- Dependencies: 319
+-- Name: objectcode_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.objectcode_id_seq OWNED BY public.objectcode.id;
+
+
+--
+-- TOC entry 320 (class 1259 OID 16796)
+-- Name: person_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.person_id_seq
+    START WITH 136
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 321 (class 1259 OID 16797)
+-- Name: person; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.person (
+    id integer DEFAULT nextval('public.person_id_seq'::regclass) NOT NULL,
+    firstname character varying(100) NOT NULL,
+    surname character varying(150) NOT NULL,
+    title character varying(25),
+    mobile character varying(70),
+    email character varying(50),
+    email2 character varying(50),
+    phone character varying(20),
+    id_group integer NOT NULL
+);
+
+
+--
+-- TOC entry 322 (class 1259 OID 16801)
+-- Name: personcompany_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.personcompany_id_seq
+    START WITH 100
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 323 (class 1259 OID 16802)
+-- Name: personcompany; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.personcompany (
+    id integer DEFAULT nextval('public.personcompany_id_seq'::regclass) NOT NULL,
+    id_person integer NOT NULL,
+    id_company integer NOT NULL,
+    status smallint,
+    "position" character varying(100)
+);
+
+
+--
+-- TOC entry 324 (class 1259 OID 16806)
+-- Name: personteam_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.personteam_id_seq
+    START WITH 26
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 325 (class 1259 OID 16807)
+-- Name: personteam; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.personteam (
+    id integer DEFAULT nextval('public.personteam_id_seq'::regclass) NOT NULL,
+    id_person integer NOT NULL,
+    id_team integer NOT NULL,
+    role character varying(100) DEFAULT '?'::character varying NOT NULL
+);
+
+
+--
+-- TOC entry 326 (class 1259 OID 16812)
+-- Name: predefinedquantity_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.predefinedquantity_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 327 (class 1259 OID 16813)
+-- Name: predefinedquantity; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.predefinedquantity (
+    id integer DEFAULT nextval('public.predefinedquantity_id_seq'::regclass) NOT NULL,
+    id_costestimate integer NOT NULL,
+    name character varying NOT NULL,
+    quantity double precision,
+    id_calculation integer,
+    id_predefinedquantityoperation integer,
+    note character varying,
+    id_unit integer NOT NULL,
+    code character varying NOT NULL,
+    id_category integer NOT NULL
+);
+
+
+--
+-- TOC entry 328 (class 1259 OID 16819)
+-- Name: predefinedquantitycategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.predefinedquantitycategory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 329 (class 1259 OID 16820)
+-- Name: predefinedquantitycategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.predefinedquantitycategory (
+    id integer DEFAULT nextval('public.predefinedquantitycategory_id_seq'::regclass) NOT NULL,
+    id_costestimate integer NOT NULL,
+    name character varying NOT NULL,
+    id_projectobject integer NOT NULL,
+    code character varying NOT NULL
+);
+
+
+--
+-- TOC entry 330 (class 1259 OID 16826)
+-- Name: predefinedquantityoperation_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.predefinedquantityoperation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 331 (class 1259 OID 16827)
+-- Name: predefinedquantityoperation; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.predefinedquantityoperation (
+    id integer DEFAULT nextval('public.predefinedquantityoperation_id_seq'::regclass) NOT NULL,
+    id_predefinedquantity1 integer NOT NULL,
+    id_predefinedquantity2 integer NOT NULL,
+    operation smallint DEFAULT 1
+);
+
+
+--
+-- TOC entry 4705 (class 0 OID 0)
+-- Dependencies: 331
+-- Name: COLUMN predefinedquantityoperation.operation; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.predefinedquantityoperation.operation IS '1- add
+2 - multiply
+3 - substance
+4- divide
+';
+
+
+--
+-- TOC entry 332 (class 1259 OID 16832)
+-- Name: predefinedunitprice_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.predefinedunitprice_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 333 (class 1259 OID 16833)
+-- Name: predefinedunitprice; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.predefinedunitprice (
+    id integer DEFAULT nextval('public.predefinedunitprice_id_seq'::regclass) NOT NULL,
+    id_category integer NOT NULL,
+    id_unit integer NOT NULL,
+    id_currency integer NOT NULL,
+    unitprice double precision,
+    id_calculation integer,
+    id_predefinedunitpriceoperation integer,
+    id_costestimate integer NOT NULL,
+    code character varying,
+    name character varying
+);
+
+
+--
+-- TOC entry 334 (class 1259 OID 16839)
+-- Name: predefinedunitpricecategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.predefinedunitpricecategory_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 335 (class 1259 OID 16840)
+-- Name: predefinedunitpricecategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.predefinedunitpricecategory (
+    id integer DEFAULT nextval('public.predefinedunitpricecategory_id_seq'::regclass) NOT NULL,
+    id_costestimate integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL
+);
+
+
+--
+-- TOC entry 336 (class 1259 OID 16846)
+-- Name: predefinedunitpriceoperation_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.predefinedunitpriceoperation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 337 (class 1259 OID 16847)
+-- Name: predefinedunitpriceoperation; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.predefinedunitpriceoperation (
+    id integer DEFAULT nextval('public.predefinedunitpriceoperation_id_seq'::regclass) NOT NULL,
+    id_predefinedunitprice1 integer NOT NULL,
+    id_predefinedunitprice2 integer NOT NULL,
+    operation smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 338 (class 1259 OID 16852)
+-- Name: project_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.project_id_seq
+    START WITH 279
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 339 (class 1259 OID 16853)
+-- Name: project; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.project (
+    id integer DEFAULT nextval('public.project_id_seq'::regclass) NOT NULL,
+    name character varying(200) NOT NULL,
+    status smallint,
+    url character varying(200),
+    note character varying(200),
+    id_company integer NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    id_group integer NOT NULL,
+    code character varying(12) NOT NULL,
+    level smallint DEFAULT 1,
+    entitytype smallint DEFAULT 0
+);
+
+
+--
+-- TOC entry 340 (class 1259 OID 16862)
+-- Name: projectobject_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.projectobject_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 341 (class 1259 OID 16863)
+-- Name: projectobject; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.projectobject (
+    id integer DEFAULT nextval('public.projectobject_id_seq'::regclass) NOT NULL,
+    id_project integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    type smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 4706 (class 0 OID 0)
+-- Dependencies: 341
+-- Name: COLUMN projectobject.type; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.projectobject.type IS '1 - building
+2 - infrastructure';
+
+
+--
+-- TOC entry 342 (class 1259 OID 16870)
+-- Name: projectobjectland; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.projectobjectland (
+    id integer NOT NULL,
+    id_projectobject integer NOT NULL,
+    id_land integer NOT NULL
+);
+
+
+--
+-- TOC entry 343 (class 1259 OID 16873)
+-- Name: projectobjectland_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.projectobjectland_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4707 (class 0 OID 0)
+-- Dependencies: 343
+-- Name: projectobjectland_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.projectobjectland_id_seq OWNED BY public.projectobjectland.id;
+
+
+--
+-- TOC entry 344 (class 1259 OID 16874)
+-- Name: projectobjectstage_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.projectobjectstage_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 345 (class 1259 OID 16875)
+-- Name: projectobjectstage; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.projectobjectstage (
+    id integer DEFAULT nextval('public.projectobjectstage_id_seq'::regclass) NOT NULL,
+    id_object integer NOT NULL,
+    id_stage integer NOT NULL,
+    stageorder smallint DEFAULT 1 NOT NULL,
+    current boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- TOC entry 4708 (class 0 OID 0)
+-- Dependencies: 345
+-- Name: COLUMN projectobjectstage.stageorder; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.projectobjectstage.stageorder IS '1 - first step in sequence
+2 - second etc';
+
+
+--
+-- TOC entry 4709 (class 0 OID 0)
+-- Dependencies: 345
+-- Name: COLUMN projectobjectstage.current; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.projectobjectstage.current IS 'object is in stage or not';
+
+
+--
+-- TOC entry 346 (class 1259 OID 16881)
+-- Name: projectstages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.projectstages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 347 (class 1259 OID 16882)
+-- Name: projectstage; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.projectstage (
+    id integer DEFAULT nextval('public.projectstages_id_seq'::regclass) NOT NULL,
+    name character varying NOT NULL,
+    id_group integer DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 348 (class 1259 OID 16889)
+-- Name: record_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.record_id_seq
+    START WITH 101084
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 349 (class 1259 OID 16890)
+-- Name: record; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.record (
+    id integer DEFAULT nextval('public.record_id_seq'::regclass) NOT NULL,
+    id_record integer NOT NULL,
+    id_user integer NOT NULL,
+    d bigint,
+    o smallint,
+    id_table integer NOT NULL,
+    note character varying,
+    id_group integer NOT NULL,
+    id1 integer,
+    id2 integer,
+    amount1 double precision,
+    amount2 double precision
+);
+
+
+--
+-- TOC entry 350 (class 1259 OID 16896)
+-- Name: retention_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.retention_id_seq
+    START WITH 1296
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 351 (class 1259 OID 16897)
+-- Name: retention; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.retention (
+    id integer DEFAULT nextval('public.retention_id_seq'::regclass) NOT NULL,
+    id_invoice integer,
+    retentionrate double precision,
+    amount double precision DEFAULT 0 NOT NULL,
+    id_contract integer NOT NULL,
+    retentiontype smallint,
+    date bigint,
+    note character varying,
+    id_user integer,
+    no integer,
+    description character varying
+);
+
+
+--
+-- TOC entry 352 (class 1259 OID 16904)
+-- Name: s_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.s_id_seq
+    START WITH 51909
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 353 (class 1259 OID 16905)
+-- Name: s; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.s (
+    id integer DEFAULT nextval('public.s_id_seq'::regclass) NOT NULL,
+    sid bpchar NOT NULL,
+    last integer,
+    id_user integer DEFAULT 0,
+    id_language smallint,
+    id_project integer,
+    id_group integer
+);
+
+
+--
+-- TOC entry 354 (class 1259 OID 16912)
+-- Name: tableareas; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tableareas (
+    id integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    id_project integer NOT NULL,
+    note character varying
+);
+
+
+--
+-- TOC entry 355 (class 1259 OID 16917)
+-- Name: tableareas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tableareas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4710 (class 0 OID 0)
+-- Dependencies: 355
+-- Name: tableareas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tableareas_id_seq OWNED BY public.tableareas.id;
+
+
+--
+-- TOC entry 356 (class 1259 OID 16918)
+-- Name: tables_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tables_id_seq
+    START WITH 110
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 357 (class 1259 OID 16919)
+-- Name: tables; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tables (
+    id integer DEFAULT nextval('public.tables_id_seq'::regclass) NOT NULL,
+    name character varying(70) NOT NULL
+);
+
+
+--
+-- TOC entry 358 (class 1259 OID 16923)
+-- Name: task_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.task_id_seq
+    START WITH 2
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 359 (class 1259 OID 16924)
+-- Name: task; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.task (
+    id integer DEFAULT nextval('public.task_id_seq'::regclass) NOT NULL,
+    code character varying(10) NOT NULL,
+    description character varying(150) NOT NULL,
+    deadline bigint,
+    alert boolean,
+    alertlag integer,
+    id_project integer NOT NULL,
+    completed boolean DEFAULT false,
+    id_contract integer,
+    alertdate bigint,
+    id_milestone integer
+);
+
+
+--
+-- TOC entry 360 (class 1259 OID 16929)
+-- Name: taskperson_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.taskperson_id_seq
+    START WITH 2
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 361 (class 1259 OID 16930)
+-- Name: taskperson; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.taskperson (
+    id integer DEFAULT nextval('public.taskperson_id_seq'::regclass) NOT NULL,
+    id_task integer NOT NULL,
+    id_person integer NOT NULL
+);
+
+
+--
+-- TOC entry 362 (class 1259 OID 16934)
+-- Name: taskteam_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.taskteam_id_seq
+    START WITH 2
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 363 (class 1259 OID 16935)
+-- Name: taskteam; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.taskteam (
+    id integer DEFAULT nextval('public.taskteam_id_seq'::regclass) NOT NULL,
+    id_task integer NOT NULL,
+    id_team integer NOT NULL
+);
+
+
+--
+-- TOC entry 364 (class 1259 OID 16939)
+-- Name: team_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.team_id_seq
+    START WITH 3
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 365 (class 1259 OID 16940)
+-- Name: team; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.team (
+    id integer DEFAULT nextval('public.team_id_seq'::regclass) NOT NULL,
+    name character varying(70) NOT NULL,
+    id_predecessor integer,
+    id_group integer NOT NULL,
+    description character varying(150)
+);
+
+
+--
+-- TOC entry 397 (class 1259 OID 43412)
+-- Name: timeschedule; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.timeschedule (
+    id integer NOT NULL,
+    id_project integer NOT NULL,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    date bigint NOT NULL
+);
+
+
+--
+-- TOC entry 396 (class 1259 OID 43411)
+-- Name: timeschedule_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.timeschedule_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4711 (class 0 OID 0)
+-- Dependencies: 396
+-- Name: timeschedule_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.timeschedule_id_seq OWNED BY public.timeschedule.id;
+
+
+--
+-- TOC entry 395 (class 1259 OID 43372)
+-- Name: timeschedulecategory; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.timeschedulecategory (
+    id integer NOT NULL,
+    id_timeschedule integer NOT NULL,
+    id_predecessor integer,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    color smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 394 (class 1259 OID 43371)
+-- Name: timeschedulecategory_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.timeschedulecategory_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4712 (class 0 OID 0)
+-- Dependencies: 394
+-- Name: timeschedulecategory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.timeschedulecategory_id_seq OWNED BY public.timeschedulecategory.id;
+
+
+--
+-- TOC entry 399 (class 1259 OID 43446)
+-- Name: timescheduleitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.timescheduleitem (
+    id integer NOT NULL,
+    id_timeschedulecategory integer NOT NULL,
+    duration smallint DEFAULT 0 NOT NULL,
+    startdate bigint,
+    enddate bigint,
+    code character varying NOT NULL,
+    name character varying NOT NULL,
+    completion smallint
+);
+
+
+--
+-- TOC entry 398 (class 1259 OID 43445)
+-- Name: timescheduleitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.timescheduleitem_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4713 (class 0 OID 0)
+-- Dependencies: 398
+-- Name: timescheduleitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.timescheduleitem_id_seq OWNED BY public.timescheduleitem.id;
+
+
+--
+-- TOC entry 401 (class 1259 OID 43461)
+-- Name: timescheduleitemlink; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.timescheduleitemlink (
+    id integer NOT NULL,
+    id_source integer NOT NULL,
+    id_target integer NOT NULL,
+    linktype smallint NOT NULL,
+    id_timeschedule integer NOT NULL,
+    lag smallint DEFAULT 0 NOT NULL
+);
+
+
+--
+-- TOC entry 4714 (class 0 OID 0)
+-- Dependencies: 401
+-- Name: TABLE timescheduleitemlink; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.timescheduleitemlink IS 'link types
+1- FS
+2- FF
+3- SS
+4-SF';
+
+
+--
+-- TOC entry 400 (class 1259 OID 43460)
+-- Name: timescheduleitemlink_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.timescheduleitemlink_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 4715 (class 0 OID 0)
+-- Dependencies: 400
+-- Name: timescheduleitemlink_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.timescheduleitemlink_id_seq OWNED BY public.timescheduleitemlink.id;
+
+
+--
+-- TOC entry 366 (class 1259 OID 16944)
+-- Name: timesheetitem_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.timesheetitem_id_seq
+    START WITH 15464
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 367 (class 1259 OID 16945)
+-- Name: timesheetitem; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.timesheetitem (
+    id integer DEFAULT nextval('public.timesheetitem_id_seq'::regclass) NOT NULL,
+    day smallint NOT NULL,
+    month smallint NOT NULL,
+    year integer NOT NULL,
+    units double precision DEFAULT 0 NOT NULL,
+    rate double precision DEFAULT 0 NOT NULL,
+    id_userrole integer NOT NULL
+);
+
+
+--
+-- TOC entry 368 (class 1259 OID 16951)
+-- Name: tracking_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tracking_id_seq
+    START WITH 4538
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 369 (class 1259 OID 16952)
+-- Name: tracking; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tracking (
+    id integer DEFAULT nextval('public.tracking_id_seq'::regclass) NOT NULL,
+    id_budget integer NOT NULL,
+    id_budgetitem integer NOT NULL,
+    value double precision NOT NULL,
+    budgetcolumn smallint NOT NULL,
+    snapshot bigint NOT NULL,
+    id_user integer NOT NULL,
+    change integer NOT NULL
+);
+
+
+--
+-- TOC entry 370 (class 1259 OID 16956)
+-- Name: trade_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.trade_id_seq
+    START WITH 248
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 371 (class 1259 OID 16957)
+-- Name: trade; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.trade (
+    id integer DEFAULT nextval('public.trade_id_seq'::regclass) NOT NULL,
+    id_group integer NOT NULL,
+    code character varying(10) NOT NULL,
+    name character varying(150) NOT NULL,
+    id_predecessor integer,
+    level smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 372 (class 1259 OID 16962)
+-- Name: transfer_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.transfer_id_seq
+    START WITH 26
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 373 (class 1259 OID 16963)
+-- Name: transfer; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transfer (
+    id integer DEFAULT nextval('public.transfer_id_seq'::regclass) NOT NULL,
+    id_budgetitemfrom integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    description character varying,
+    note character varying,
+    id_budgetitemto integer NOT NULL,
+    id_budget integer NOT NULL,
+    date bigint NOT NULL
+);
+
+
+--
+-- TOC entry 374 (class 1259 OID 16970)
+-- Name: unit_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.unit_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 375 (class 1259 OID 16971)
+-- Name: unit; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.unit (
+    id integer DEFAULT nextval('public.unit_id_seq'::regclass) NOT NULL,
+    name character varying NOT NULL,
+    type smallint NOT NULL
+);
+
+
+--
+-- TOC entry 4716 (class 0 OID 0)
+-- Dependencies: 375
+-- Name: TABLE unit; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.unit IS '1-volume
+2-weight
+3-pc
+4-time
+5-energy';
+
+
+--
+-- TOC entry 376 (class 1259 OID 16977)
+-- Name: user_favorite_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_favorite_id_seq
+    START WITH 70
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 377 (class 1259 OID 16978)
+-- Name: user_favorite; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_favorite (
+    id integer DEFAULT nextval('public.user_favorite_id_seq'::regclass) NOT NULL,
+    id_user integer NOT NULL,
+    tablename character varying(100) NOT NULL,
+    id_record integer NOT NULL,
+    id_project integer DEFAULT 0 NOT NULL
+);
+
+
+--
+-- TOC entry 378 (class 1259 OID 16983)
+-- Name: user_groupright_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_groupright_id_seq
+    START WITH 23
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 379 (class 1259 OID 16984)
+-- Name: user_groupright; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_groupright (
+    id integer DEFAULT nextval('public.user_groupright_id_seq'::regclass) NOT NULL,
+    id_user integer NOT NULL,
+    id_group smallint NOT NULL,
+    level smallint DEFAULT 1 NOT NULL
+);
+
+
+--
+-- TOC entry 380 (class 1259 OID 16989)
+-- Name: user_right_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_right_id_seq
+    START WITH 12481
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 381 (class 1259 OID 16990)
+-- Name: user_right; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_right (
+    id integer DEFAULT nextval('public.user_right_id_seq'::regclass) NOT NULL,
+    id_user integer NOT NULL,
+    id_project integer NOT NULL,
+    pright character varying(5) NOT NULL
+);
+
+
+--
+-- TOC entry 382 (class 1259 OID 16994)
+-- Name: userprofile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.userprofile_id_seq
+    START WITH 34
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 383 (class 1259 OID 16995)
+-- Name: userprofile; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.userprofile (
+    id integer DEFAULT nextval('public.userprofile_id_seq'::regclass) NOT NULL,
+    "BR" boolean DEFAULT true,
+    "BW" boolean DEFAULT false,
+    "CR" boolean DEFAULT true,
+    "CW" boolean DEFAULT false,
+    "IR" boolean DEFAULT true,
+    "IW" boolean DEFAULT false,
+    "DR" boolean DEFAULT true,
+    "DW" boolean DEFAULT false,
+    "TSW" boolean DEFAULT false,
+    id_user integer NOT NULL
+);
+
+
+--
+-- TOC entry 384 (class 1259 OID 17008)
+-- Name: userrole_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.userrole_id_seq
+    START WITH 1762
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 385 (class 1259 OID 17009)
+-- Name: userrole; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.userrole (
+    id integer DEFAULT nextval('public.userrole_id_seq'::regclass) NOT NULL,
+    id_user integer NOT NULL,
+    id_budget integer NOT NULL,
+    rolecode character varying(10),
+    role character varying(120) NOT NULL,
+    rate double precision DEFAULT 0 NOT NULL,
+    id_budgetitem integer NOT NULL,
+    ratioofbudgetitem double precision DEFAULT 1.0 NOT NULL
+);
+
+
+--
+-- TOC entry 386 (class 1259 OID 17015)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1900
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 387 (class 1259 OID 17016)
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.users (
+    id integer DEFAULT nextval('public.users_id_seq'::regclass) NOT NULL,
+    firstname character varying(100) NOT NULL,
+    surname character varying(100) NOT NULL,
+    username character varying(20) NOT NULL,
+    password character varying(100) NOT NULL,
+    level smallint DEFAULT 1 NOT NULL,
+    id_language smallint DEFAULT 1 NOT NULL,
+    email character varying(200),
+    id_project integer,
+    id_group integer NOT NULL,
+    homepage smallint DEFAULT 1,
+    homerecord integer,
+    defaultrolecode character varying(10),
+    defaultrole character varying(120),
+    defaultrate double precision DEFAULT 0,
+    homemode smallint,
+    timesheet boolean DEFAULT true,
+    holiday double precision DEFAULT 25,
+    illness double precision DEFAULT 4,
+    overhead double precision DEFAULT 10,
+    other double precision DEFAULT 0,
+    simpleproject boolean DEFAULT false,
+    active boolean DEFAULT true NOT NULL
+);
+
+
+--
+-- TOC entry 388 (class 1259 OID 17033)
+-- Name: userswitch_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.userswitch_id_seq
+    START WITH 2545
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 389 (class 1259 OID 17034)
+-- Name: userswitch; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.userswitch (
+    id integer DEFAULT nextval('public.userswitch_id_seq'::regclass) NOT NULL,
+    description character varying(50) NOT NULL,
+    id_record integer,
+    id_user integer NOT NULL,
+    status boolean
+);
+
+
+--
+-- TOC entry 390 (class 1259 OID 17038)
+-- Name: valuetoplace_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.valuetoplace_id_seq
+    START WITH 35
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 391 (class 1259 OID 17039)
+-- Name: valuetoplace; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.valuetoplace (
+    id integer DEFAULT nextval('public.valuetoplace_id_seq'::regclass) NOT NULL,
+    id_budgetitem integer NOT NULL,
+    amount double precision DEFAULT 0 NOT NULL,
+    description character varying NOT NULL,
+    note character varying,
+    date bigint NOT NULL
+);
+
+
+--
+-- TOC entry 392 (class 1259 OID 17046)
+-- Name: vat_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.vat_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 393 (class 1259 OID 17047)
+-- Name: vat; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vat (
+    id integer DEFAULT nextval('public.vat_id_seq'::regclass) NOT NULL,
+    id_invoice integer NOT NULL,
+    vatrate double precision,
+    amount double precision DEFAULT 0 NOT NULL,
+    id_contract integer NOT NULL,
+    vattype smallint,
+    note character varying,
+    description character varying
+);
+
+
+--
+-- TOC entry 4142 (class 2604 OID 43681)
+-- Name: budgetitemtimescheduleitem id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitemtimescheduleitem ALTER COLUMN id SET DEFAULT nextval('public.budgetitemtimescheduleitem_id_seq'::regclass);
+
+
+--
+-- TOC entry 4141 (class 2604 OID 43661)
+-- Name: budgettimeschedule id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgettimeschedule ALTER COLUMN id SET DEFAULT nextval('public.budgettimeschedule_id_seq'::regclass);
+
+
+--
+-- TOC entry 3955 (class 2604 OID 17054)
+-- Name: canticipated id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canticipated ALTER COLUMN id SET DEFAULT nextval('public.canticipated_id_seq'::regclass);
+
+
+--
+-- TOC entry 3967 (class 2604 OID 17055)
+-- Name: changerequest id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequest ALTER COLUMN id SET DEFAULT nextval('public.changerequest_id_seq'::regclass);
+
+
+--
+-- TOC entry 3969 (class 2604 OID 17056)
+-- Name: changerequestitem id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequestitem ALTER COLUMN id SET DEFAULT nextval('public.changerequestitem_id_seq'::regclass);
+
+
+--
+-- TOC entry 3972 (class 2604 OID 17057)
+-- Name: changerequestitemrevision id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequestitemrevision ALTER COLUMN id SET DEFAULT nextval('public.changerequestitemrevision_id_seq'::regclass);
+
+
+--
+-- TOC entry 4039 (class 2604 OID 17058)
+-- Name: internals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.internals ALTER COLUMN id SET DEFAULT nextval('public.internals_id_seq'::regclass);
+
+
+--
+-- TOC entry 4051 (class 2604 OID 17059)
+-- Name: object id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.object ALTER COLUMN id SET DEFAULT nextval('public.object_id_seq'::regclass);
+
+
+--
+-- TOC entry 4053 (class 2604 OID 17060)
+-- Name: objectcode id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.objectcode ALTER COLUMN id SET DEFAULT nextval('public.objectcode_id_seq'::regclass);
+
+
+--
+-- TOC entry 4072 (class 2604 OID 17061)
+-- Name: projectobjectland id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobjectland ALTER COLUMN id SET DEFAULT nextval('public.projectobjectland_id_seq'::regclass);
+
+
+--
+-- TOC entry 4083 (class 2604 OID 17062)
+-- Name: tableareas id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tableareas ALTER COLUMN id SET DEFAULT nextval('public.tableareas_id_seq'::regclass);
+
+
+--
+-- TOC entry 4136 (class 2604 OID 43415)
+-- Name: timeschedule id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timeschedule ALTER COLUMN id SET DEFAULT nextval('public.timeschedule_id_seq'::regclass);
+
+
+--
+-- TOC entry 4134 (class 2604 OID 43375)
+-- Name: timeschedulecategory id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timeschedulecategory ALTER COLUMN id SET DEFAULT nextval('public.timeschedulecategory_id_seq'::regclass);
+
+
+--
+-- TOC entry 4137 (class 2604 OID 43449)
+-- Name: timescheduleitem id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitem ALTER COLUMN id SET DEFAULT nextval('public.timescheduleitem_id_seq'::regclass);
+
+
+--
+-- TOC entry 4139 (class 2604 OID 43464)
+-- Name: timescheduleitemlink id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitemlink ALTER COLUMN id SET DEFAULT nextval('public.timescheduleitemlink_id_seq'::regclass);
+
+
+--
+-- TOC entry 4144 (class 2606 OID 17064)
+-- Name: address address_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address
+    ADD CONSTRAINT address_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4146 (class 2606 OID 17066)
+-- Name: adjustment adjustment_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.adjustment
+    ADD CONSTRAINT adjustment_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4148 (class 2606 OID 17068)
+-- Name: amendment amendment_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.amendment
+    ADD CONSTRAINT amendment_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4150 (class 2606 OID 17070)
+-- Name: amendmentitem amendmentitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.amendmentitem
+    ADD CONSTRAINT amendmentitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4152 (class 2606 OID 17072)
+-- Name: anticipated anticipated_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.anticipated
+    ADD CONSTRAINT anticipated_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4154 (class 2606 OID 17074)
+-- Name: boq boq_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boq
+    ADD CONSTRAINT boq_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4156 (class 2606 OID 17076)
+-- Name: boqcategory boqcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boqcategory
+    ADD CONSTRAINT boqcategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4159 (class 2606 OID 17078)
+-- Name: budget budget_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budget
+    ADD CONSTRAINT budget_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4161 (class 2606 OID 17080)
+-- Name: budgetcategory budgetcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetcategory
+    ADD CONSTRAINT budgetcategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4163 (class 2606 OID 17082)
+-- Name: budgetcontract budgetcontract_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetcontract
+    ADD CONSTRAINT budgetcontract_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4165 (class 2606 OID 17084)
+-- Name: budgetinvoice budgetinvoice_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetinvoice
+    ADD CONSTRAINT budgetinvoice_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4167 (class 2606 OID 17086)
+-- Name: budgetitem budgetitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitem
+    ADD CONSTRAINT budgetitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4169 (class 2606 OID 17088)
+-- Name: budgetitemcontractitem budgetitemcontractitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitemcontractitem
+    ADD CONSTRAINT budgetitemcontractitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4380 (class 2606 OID 43698)
+-- Name: budgetitemtimescheduleitem budgetitemtimescheduleitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitemtimescheduleitem
+    ADD CONSTRAINT budgetitemtimescheduleitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4376 (class 2606 OID 43663)
+-- Name: budgettimeschedule budgettimeschedule_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgettimeschedule
+    ADD CONSTRAINT budgettimeschedule_pkey PRIMARY KEY (id_budget);
+
+
+--
+-- TOC entry 4171 (class 2606 OID 17090)
+-- Name: calculation calculation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.calculation
+    ADD CONSTRAINT calculation_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4175 (class 2606 OID 17092)
+-- Name: calculationitem calculationitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.calculationitem
+    ADD CONSTRAINT calculationitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4178 (class 2606 OID 17094)
+-- Name: canticipated canticipated_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canticipated
+    ADD CONSTRAINT canticipated_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4181 (class 2606 OID 17096)
+-- Name: cashflow cashflow_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflow
+    ADD CONSTRAINT cashflow_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4183 (class 2606 OID 17098)
+-- Name: cashflowanticipated cashflowanticipated_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowanticipated
+    ADD CONSTRAINT cashflowanticipated_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4185 (class 2606 OID 17100)
+-- Name: cashflowcontract cashflowcontract_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowcontract
+    ADD CONSTRAINT cashflowcontract_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4189 (class 2606 OID 17102)
+-- Name: cashflowitem cashflowitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowitem
+    ADD CONSTRAINT cashflowitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4191 (class 2606 OID 17104)
+-- Name: cashflowvaluetoplace cashflowvaluetoplace_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowvaluetoplace
+    ADD CONSTRAINT cashflowvaluetoplace_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4338 (class 2606 OID 17106)
+-- Name: trade category_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trade
+    ADD CONSTRAINT category_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4193 (class 2606 OID 17108)
+-- Name: changeorder changeorder_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changeorder
+    ADD CONSTRAINT changeorder_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4195 (class 2606 OID 17110)
+-- Name: changeorderitem changeorderitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changeorderitem
+    ADD CONSTRAINT changeorderitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4197 (class 2606 OID 17112)
+-- Name: changerequest changerequest_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequest
+    ADD CONSTRAINT changerequest_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4200 (class 2606 OID 17114)
+-- Name: changerequestitem changerequestitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequestitem
+    ADD CONSTRAINT changerequestitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4202 (class 2606 OID 17116)
+-- Name: changerequestitemrevision changerequestitemrevision_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequestitemrevision
+    ADD CONSTRAINT changerequestitemrevision_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4205 (class 2606 OID 17118)
+-- Name: company company_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.company
+    ADD CONSTRAINT company_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4207 (class 2606 OID 17120)
+-- Name: companyaddress companyaddress_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.companyaddress
+    ADD CONSTRAINT companyaddress_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4209 (class 2606 OID 17122)
+-- Name: companytrade companycategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.companytrade
+    ADD CONSTRAINT companycategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4211 (class 2606 OID 17124)
+-- Name: contract contract_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contract
+    ADD CONSTRAINT contract_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4213 (class 2606 OID 17126)
+-- Name: contractcategory contractcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contractcategory
+    ADD CONSTRAINT contractcategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4215 (class 2606 OID 17128)
+-- Name: contractitem contractitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contractitem
+    ADD CONSTRAINT contractitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4217 (class 2606 OID 17130)
+-- Name: costestimate costestimate_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimate
+    ADD CONSTRAINT costestimate_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4222 (class 2606 OID 17132)
+-- Name: costestimatecategory costestimatecategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimatecategory
+    ADD CONSTRAINT costestimatecategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4224 (class 2606 OID 17134)
+-- Name: costestimateitem costetimateitem__id_category; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimateitem
+    ADD CONSTRAINT costetimateitem__id_category PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4229 (class 2606 OID 17136)
+-- Name: countries countries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.countries
+    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4231 (class 2606 OID 17138)
+-- Name: currency currency_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.currency
+    ADD CONSTRAINT currency_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4233 (class 2606 OID 17140)
+-- Name: downpayment downpayment_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.downpayment
+    ADD CONSTRAINT downpayment_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4235 (class 2606 OID 17142)
+-- Name: downpaymentitem downpaymentitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.downpaymentitem
+    ADD CONSTRAINT downpaymentitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4237 (class 2606 OID 17144)
+-- Name: f2 f2_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.f2
+    ADD CONSTRAINT f2_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4239 (class 2606 OID 17146)
+-- Name: f2item f2item_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.f2item
+    ADD CONSTRAINT f2item_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4242 (class 2606 OID 17148)
+-- Name: file file_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file
+    ADD CONSTRAINT file_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4244 (class 2606 OID 17150)
+-- Name: filecategory filecategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.filecategory
+    ADD CONSTRAINT filecategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4246 (class 2606 OID 17152)
+-- Name: groups group_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.groups
+    ADD CONSTRAINT group_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4311 (class 2606 OID 17154)
+-- Name: projectobjectstage id; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobjectstage
+    ADD CONSTRAINT id PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4248 (class 2606 OID 17156)
+-- Name: interim interim_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.interim
+    ADD CONSTRAINT interim_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4250 (class 2606 OID 17158)
+-- Name: interimitem interimitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.interimitem
+    ADD CONSTRAINT interimitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4252 (class 2606 OID 17160)
+-- Name: internals internals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.internals
+    ADD CONSTRAINT internals_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4254 (class 2606 OID 17162)
+-- Name: invoice invoice_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoice
+    ADD CONSTRAINT invoice_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4256 (class 2606 OID 17164)
+-- Name: invoiceitem invoiceitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoiceitem
+    ADD CONSTRAINT invoiceitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4259 (class 2606 OID 17166)
+-- Name: land land_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land
+    ADD CONSTRAINT land_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4261 (class 2606 OID 17168)
+-- Name: language language_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.language
+    ADD CONSTRAINT language_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4263 (class 2606 OID 17170)
+-- Name: milestone milestone_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.milestone
+    ADD CONSTRAINT milestone_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4265 (class 2606 OID 17172)
+-- Name: milestonetype milestonetype_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.milestonetype
+    ADD CONSTRAINT milestonetype_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4269 (class 2606 OID 17174)
+-- Name: object object_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.object
+    ADD CONSTRAINT object_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4271 (class 2606 OID 17176)
+-- Name: objectcode objectcode_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.objectcode
+    ADD CONSTRAINT objectcode_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4273 (class 2606 OID 17178)
+-- Name: person person_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person
+    ADD CONSTRAINT person_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4275 (class 2606 OID 17180)
+-- Name: personcompany personcompany_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personcompany
+    ADD CONSTRAINT personcompany_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4277 (class 2606 OID 17182)
+-- Name: personteam personteam_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personteam
+    ADD CONSTRAINT personteam_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4282 (class 2606 OID 17184)
+-- Name: predefinedquantity predefinedquantity_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantity
+    ADD CONSTRAINT predefinedquantity_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4286 (class 2606 OID 17186)
+-- Name: predefinedquantitycategory predefinedquantitycategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantitycategory
+    ADD CONSTRAINT predefinedquantitycategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4288 (class 2606 OID 17188)
+-- Name: predefinedquantityoperation predefinedquantityoperation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantityoperation
+    ADD CONSTRAINT predefinedquantityoperation_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4294 (class 2606 OID 17190)
+-- Name: predefinedunitprice predefinedup_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitprice
+    ADD CONSTRAINT predefinedup_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4297 (class 2606 OID 17192)
+-- Name: predefinedunitpricecategory predefinedupcategory_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitpricecategory
+    ADD CONSTRAINT predefinedupcategory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4299 (class 2606 OID 17194)
+-- Name: predefinedunitpriceoperation predefinedupoperation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitpriceoperation
+    ADD CONSTRAINT predefinedupoperation_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4301 (class 2606 OID 17196)
+-- Name: project project_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.project
+    ADD CONSTRAINT project_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4303 (class 2606 OID 17198)
+-- Name: projectobject projectobject_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobject
+    ADD CONSTRAINT projectobject_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4307 (class 2606 OID 17200)
+-- Name: projectobjectland projectobjectland_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobjectland
+    ADD CONSTRAINT projectobjectland_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4313 (class 2606 OID 17202)
+-- Name: projectstage projectstages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectstage
+    ADD CONSTRAINT projectstages_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4315 (class 2606 OID 17204)
+-- Name: record record_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.record
+    ADD CONSTRAINT record_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4318 (class 2606 OID 17206)
+-- Name: retention retention_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.retention
+    ADD CONSTRAINT retention_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4320 (class 2606 OID 17208)
+-- Name: s s_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.s
+    ADD CONSTRAINT s_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4322 (class 2606 OID 17210)
+-- Name: tableareas tableareas_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tableareas
+    ADD CONSTRAINT tableareas_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4324 (class 2606 OID 17212)
+-- Name: tables tables_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tables
+    ADD CONSTRAINT tables_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4326 (class 2606 OID 17214)
+-- Name: task task_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.task
+    ADD CONSTRAINT task_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4328 (class 2606 OID 17216)
+-- Name: taskperson taskperson_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.taskperson
+    ADD CONSTRAINT taskperson_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4330 (class 2606 OID 17218)
+-- Name: taskteam taskteam_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.taskteam
+    ADD CONSTRAINT taskteam_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4332 (class 2606 OID 17220)
+-- Name: team team_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.team
+    ADD CONSTRAINT team_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4366 (class 2606 OID 43421)
+-- Name: timeschedule timeschedule.pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timeschedule
+    ADD CONSTRAINT "timeschedule.pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4363 (class 2606 OID 43429)
+-- Name: timeschedulecategory timeschedulecategory.pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timeschedulecategory
+    ADD CONSTRAINT "timeschedulecategory.pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4369 (class 2606 OID 43521)
+-- Name: timescheduleitem timescheduleitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitem
+    ADD CONSTRAINT timescheduleitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4374 (class 2606 OID 43528)
+-- Name: timescheduleitemlink timescheduleitemlink_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitemlink
+    ADD CONSTRAINT timescheduleitemlink_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4334 (class 2606 OID 17222)
+-- Name: timesheetitem timesheetitem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timesheetitem
+    ADD CONSTRAINT timesheetitem_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4336 (class 2606 OID 17224)
+-- Name: tracking tracking_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tracking
+    ADD CONSTRAINT tracking_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4340 (class 2606 OID 17226)
+-- Name: transfer transfer_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfer
+    ADD CONSTRAINT transfer_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4342 (class 2606 OID 17228)
+-- Name: unit unit_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.unit
+    ADD CONSTRAINT unit_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4344 (class 2606 OID 17230)
+-- Name: user_favorite user_favorite_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite
+    ADD CONSTRAINT user_favorite_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4346 (class 2606 OID 17232)
+-- Name: user_groupright user_groupright_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_groupright
+    ADD CONSTRAINT user_groupright_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4354 (class 2606 OID 17234)
+-- Name: users user_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4348 (class 2606 OID 17236)
+-- Name: user_right user_right_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_right
+    ADD CONSTRAINT user_right_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4350 (class 2606 OID 17238)
+-- Name: userprofile userprofile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userprofile
+    ADD CONSTRAINT userprofile_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4352 (class 2606 OID 17240)
+-- Name: userrole userrole_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userrole
+    ADD CONSTRAINT userrole_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4356 (class 2606 OID 17242)
+-- Name: userswitch userswitch_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userswitch
+    ADD CONSTRAINT userswitch_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4358 (class 2606 OID 17244)
+-- Name: valuetoplace valuetoplace_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valuetoplace
+    ADD CONSTRAINT valuetoplace_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4360 (class 2606 OID 17246)
+-- Name: vat vat_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vat
+    ADD CONSTRAINT vat_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4157 (class 1259 OID 17247)
+-- Name: fki_bodcategory__id_projectobject; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_bodcategory__id_projectobject ON public.boqcategory USING btree (id_projectobject);
+
+
+--
+-- TOC entry 4381 (class 1259 OID 43690)
+-- Name: fki_budgetitemtimescheduleitem__id_budgetitem; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_budgetitemtimescheduleitem__id_budgetitem ON public.budgetitemtimescheduleitem USING btree (id_budgetitem);
+
+
+--
+-- TOC entry 4382 (class 1259 OID 43696)
+-- Name: fki_budgetitemtimescheduleitem__id_timescheduleitem; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_budgetitemtimescheduleitem__id_timescheduleitem ON public.budgetitemtimescheduleitem USING btree (id_timescheduleitem);
+
+
+--
+-- TOC entry 4377 (class 1259 OID 43669)
+-- Name: fki_budgettimeschedule__id_budget; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_budgettimeschedule__id_budget ON public.budgettimeschedule USING btree (id_budget);
+
+
+--
+-- TOC entry 4378 (class 1259 OID 43675)
+-- Name: fki_budgettimeschedule__id_timeschedule; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_budgettimeschedule__id_timeschedule ON public.budgettimeschedule USING btree (id_timeschedule);
+
+
+--
+-- TOC entry 4172 (class 1259 OID 17248)
+-- Name: fki_calculation__id_costestimate; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_calculation__id_costestimate ON public.calculation USING btree (id_costestimate);
+
+
+--
+-- TOC entry 4173 (class 1259 OID 17249)
+-- Name: fki_calculation__id_unit; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_calculation__id_unit ON public.calculation USING btree (id_unit);
+
+
+--
+-- TOC entry 4176 (class 1259 OID 17250)
+-- Name: fki_calculationitem__id_calculation; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_calculationitem__id_calculation ON public.calculationitem USING btree (id_calculation);
+
+
+--
+-- TOC entry 4179 (class 1259 OID 17251)
+-- Name: fki_canticipated__id_contractitem->contractitem; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "fki_canticipated__id_contractitem->contractitem" ON public.canticipated USING btree (id_contractitem);
+
+
+--
+-- TOC entry 4186 (class 1259 OID 17252)
+-- Name: fki_cashflowcontract__id_cashflowitem; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_cashflowcontract__id_cashflowitem ON public.cashflowcontract USING btree (id_cashflowitem);
+
+
+--
+-- TOC entry 4187 (class 1259 OID 17253)
+-- Name: fki_cashflowcontract__id_contractitem; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_cashflowcontract__id_contractitem ON public.cashflowcontract USING btree (id_contractitem);
+
+
+--
+-- TOC entry 4198 (class 1259 OID 17254)
+-- Name: fki_changerequest__id_contract->contract; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "fki_changerequest__id_contract->contract" ON public.changerequest USING btree (id_contract);
+
+
+--
+-- TOC entry 4203 (class 1259 OID 17255)
+-- Name: fki_changerequestitemrevision__id_changerequestitem->chan; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "fki_changerequestitemrevision__id_changerequestitem->chan" ON public.changerequestitemrevision USING btree (id_changerequestitem);
+
+
+--
+-- TOC entry 4218 (class 1259 OID 17256)
+-- Name: fki_costestimate__id_currency; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_costestimate__id_currency ON public.costestimate USING btree (id_currency);
+
+
+--
+-- TOC entry 4219 (class 1259 OID 17257)
+-- Name: fki_costestimate__id_project; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_costestimate__id_project ON public.costestimate USING btree (id_project);
+
+
+--
+-- TOC entry 4220 (class 1259 OID 17258)
+-- Name: fki_costestimate__id_targetcurrency; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_costestimate__id_targetcurrency ON public.costestimate USING btree (id_targetcurrency);
+
+
+--
+-- TOC entry 4225 (class 1259 OID 17259)
+-- Name: fki_costestimateitem__id_category; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_costestimateitem__id_category ON public.costestimateitem USING btree (id_category);
+
+
+--
+-- TOC entry 4226 (class 1259 OID 17260)
+-- Name: fki_costestimateitem__id_costestimate; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_costestimateitem__id_costestimate ON public.costestimateitem USING btree (id_costestimate);
+
+
+--
+-- TOC entry 4227 (class 1259 OID 17261)
+-- Name: fki_costestimateitem__id_unit; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_costestimateitem__id_unit ON public.costestimateitem USING btree (id_unit);
+
+
+--
+-- TOC entry 4240 (class 1259 OID 17262)
+-- Name: fki_f2item__id_f2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_f2item__id_f2 ON public.f2item USING btree (id_f2);
+
+
+--
+-- TOC entry 4370 (class 1259 OID 43534)
+-- Name: fki_id_source__id_timescheduleitem; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_id_source__id_timescheduleitem ON public.timescheduleitemlink USING btree (id_source);
+
+
+--
+-- TOC entry 4371 (class 1259 OID 43540)
+-- Name: fki_id_target__id_timescheduleitem; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_id_target__id_timescheduleitem ON public.timescheduleitemlink USING btree (id_target);
+
+
+--
+-- TOC entry 4257 (class 1259 OID 17263)
+-- Name: fki_land__id_project; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_land__id_project ON public.land USING btree (id_project);
+
+
+--
+-- TOC entry 4266 (class 1259 OID 17264)
+-- Name: fki_object__id_objectcode->objectcode; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "fki_object__id_objectcode->objectcode" ON public.object USING btree (id_objectcode);
+
+
+--
+-- TOC entry 4267 (class 1259 OID 17265)
+-- Name: fki_object__id_table->tableareas; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX "fki_object__id_table->tableareas" ON public.object USING btree (id_table);
+
+
+--
+-- TOC entry 4278 (class 1259 OID 17266)
+-- Name: fki_predefinedquantity__id_costestimate; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedquantity__id_costestimate ON public.predefinedquantity USING btree (id_costestimate);
+
+
+--
+-- TOC entry 4279 (class 1259 OID 17267)
+-- Name: fki_predefinedquantity__id_unit; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedquantity__id_unit ON public.predefinedquantity USING btree (id_unit);
+
+
+--
+-- TOC entry 4280 (class 1259 OID 17268)
+-- Name: fki_predefinedquantitycategory__id_category; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedquantitycategory__id_category ON public.predefinedquantity USING btree (id_category);
+
+
+--
+-- TOC entry 4283 (class 1259 OID 17269)
+-- Name: fki_predefinedquantitycategory__id_costestimate; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedquantitycategory__id_costestimate ON public.predefinedquantitycategory USING btree (id_costestimate);
+
+
+--
+-- TOC entry 4284 (class 1259 OID 17270)
+-- Name: fki_predefinedquantitycategory__id_projectobject; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedquantitycategory__id_projectobject ON public.predefinedquantitycategory USING btree (id_projectobject);
+
+
+--
+-- TOC entry 4289 (class 1259 OID 17271)
+-- Name: fki_predefinedunitprice__id_costestimate; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedunitprice__id_costestimate ON public.predefinedunitprice USING btree (id_costestimate);
+
+
+--
+-- TOC entry 4290 (class 1259 OID 17272)
+-- Name: fki_predefinedup__id_category; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedup__id_category ON public.predefinedunitprice USING btree (id_category);
+
+
+--
+-- TOC entry 4291 (class 1259 OID 17273)
+-- Name: fki_predefinedup__id_currency; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedup__id_currency ON public.predefinedunitprice USING btree (id_currency);
+
+
+--
+-- TOC entry 4292 (class 1259 OID 17274)
+-- Name: fki_predefinedup__id_unit; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedup__id_unit ON public.predefinedunitprice USING btree (id_unit);
+
+
+--
+-- TOC entry 4295 (class 1259 OID 17275)
+-- Name: fki_predefinedupcategory__id_costestimate; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_predefinedupcategory__id_costestimate ON public.predefinedunitpricecategory USING btree (id_costestimate);
+
+
+--
+-- TOC entry 4304 (class 1259 OID 17276)
+-- Name: fki_projectobjectland__id_land; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_projectobjectland__id_land ON public.projectobjectland USING btree (id_land);
+
+
+--
+-- TOC entry 4305 (class 1259 OID 17277)
+-- Name: fki_projectobjectland__id_projectobject; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_projectobjectland__id_projectobject ON public.projectobjectland USING btree (id_projectobject);
+
+
+--
+-- TOC entry 4308 (class 1259 OID 17278)
+-- Name: fki_projectobjectstage__id_object; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_projectobjectstage__id_object ON public.projectobjectstage USING btree (id_object);
+
+
+--
+-- TOC entry 4309 (class 1259 OID 17279)
+-- Name: fki_projectobjectstage__id_stage; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_projectobjectstage__id_stage ON public.projectobjectstage USING btree (id_stage);
+
+
+--
+-- TOC entry 4316 (class 1259 OID 17280)
+-- Name: fki_retention__id_user; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_retention__id_user ON public.retention USING btree (id_user);
+
+
+--
+-- TOC entry 4364 (class 1259 OID 43467)
+-- Name: fki_timeschedule__id_project; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_timeschedule__id_project ON public.timeschedule USING btree (id_project);
+
+
+--
+-- TOC entry 4361 (class 1259 OID 43480)
+-- Name: fki_timeschedulecategory__id_timeschedule; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_timeschedulecategory__id_timeschedule ON public.timeschedulecategory USING btree (id_timeschedule);
+
+
+--
+-- TOC entry 4367 (class 1259 OID 43519)
+-- Name: fki_timescheduleitem__id_timeschedulecategory; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_timescheduleitem__id_timeschedulecategory ON public.timescheduleitem USING btree (id_timeschedulecategory);
+
+
+--
+-- TOC entry 4372 (class 1259 OID 43551)
+-- Name: fki_timeschedulelink__id_timeschedule; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_timeschedulelink__id_timeschedule ON public.timescheduleitemlink USING btree (id_timeschedule);
+
+
+--
+-- TOC entry 4383 (class 2606 OID 17281)
+-- Name: address address__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address
+    ADD CONSTRAINT address__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4385 (class 2606 OID 17286)
+-- Name: adjustment adjustment__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.adjustment
+    ADD CONSTRAINT adjustment__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4384 (class 2606 OID 17291)
+-- Name: address adress__id_country; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address
+    ADD CONSTRAINT adress__id_country FOREIGN KEY (id_country) REFERENCES public.countries(id);
+
+
+--
+-- TOC entry 4386 (class 2606 OID 17296)
+-- Name: amendment amendment__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.amendment
+    ADD CONSTRAINT amendment__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4387 (class 2606 OID 17301)
+-- Name: amendmentitem amendmentitem__id_amendment; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.amendmentitem
+    ADD CONSTRAINT amendmentitem__id_amendment FOREIGN KEY (id_amendment) REFERENCES public.amendment(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4388 (class 2606 OID 17306)
+-- Name: amendmentitem amendmentitem__id_contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.amendmentitem
+    ADD CONSTRAINT amendmentitem__id_contractitem FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4389 (class 2606 OID 17311)
+-- Name: anticipated anticipated__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.anticipated
+    ADD CONSTRAINT anticipated__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4390 (class 2606 OID 17316)
+-- Name: boqcategory bodcategory__id_projectobject; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boqcategory
+    ADD CONSTRAINT bodcategory__id_projectobject FOREIGN KEY (id_projectobject) REFERENCES public.projectobject(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4391 (class 2606 OID 17321)
+-- Name: boqcategory boqcategory__id_boq; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boqcategory
+    ADD CONSTRAINT boqcategory__id_boq FOREIGN KEY (id_boq) REFERENCES public.boq(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4392 (class 2606 OID 17326)
+-- Name: boqitem boqitem__id_boq; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boqitem
+    ADD CONSTRAINT boqitem__id_boq FOREIGN KEY (id_boq) REFERENCES public.boq(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4393 (class 2606 OID 17331)
+-- Name: boqitem boqitem__id_category; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boqitem
+    ADD CONSTRAINT boqitem__id_category FOREIGN KEY (id_category) REFERENCES public.boqcategory(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4394 (class 2606 OID 17336)
+-- Name: boqitem boqitem__id_unit; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.boqitem
+    ADD CONSTRAINT boqitem__id_unit FOREIGN KEY (id_unit) REFERENCES public.unit(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4395 (class 2606 OID 17341)
+-- Name: budget budget__id_currency; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budget
+    ADD CONSTRAINT budget__id_currency FOREIGN KEY (id_currency) REFERENCES public.currency(id);
+
+
+--
+-- TOC entry 4396 (class 2606 OID 17346)
+-- Name: budget budget__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budget
+    ADD CONSTRAINT budget__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4397 (class 2606 OID 17351)
+-- Name: budgetcategory budgetcategory__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetcategory
+    ADD CONSTRAINT budgetcategory__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4398 (class 2606 OID 17356)
+-- Name: budgetcontract budgetcontract__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetcontract
+    ADD CONSTRAINT budgetcontract__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4399 (class 2606 OID 17361)
+-- Name: budgetcontract budgetcontract__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetcontract
+    ADD CONSTRAINT budgetcontract__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4400 (class 2606 OID 17366)
+-- Name: budgetinvoice budgetinvoice__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetinvoice
+    ADD CONSTRAINT budgetinvoice__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4401 (class 2606 OID 17371)
+-- Name: budgetinvoice budgetinvoice__id_invoice; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetinvoice
+    ADD CONSTRAINT budgetinvoice__id_invoice FOREIGN KEY (id_invoice) REFERENCES public.invoice(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4402 (class 2606 OID 17376)
+-- Name: budgetitem budgetitem__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitem
+    ADD CONSTRAINT budgetitem__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4403 (class 2606 OID 17381)
+-- Name: budgetitem budgetitem__id_category; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitem
+    ADD CONSTRAINT budgetitem__id_category FOREIGN KEY (id_category) REFERENCES public.budgetcategory(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4404 (class 2606 OID 17386)
+-- Name: budgetitemcontractitem budgetitemcontractitem__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitemcontractitem
+    ADD CONSTRAINT budgetitemcontractitem__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4405 (class 2606 OID 17391)
+-- Name: budgetitemcontractitem budgetitemcontractitem__id_contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitemcontractitem
+    ADD CONSTRAINT budgetitemcontractitem__id_contractitem FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4542 (class 2606 OID 43685)
+-- Name: budgetitemtimescheduleitem budgetitemtimescheduleitem__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitemtimescheduleitem
+    ADD CONSTRAINT budgetitemtimescheduleitem__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4543 (class 2606 OID 43691)
+-- Name: budgetitemtimescheduleitem budgetitemtimescheduleitem__id_timescheduleitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgetitemtimescheduleitem
+    ADD CONSTRAINT budgetitemtimescheduleitem__id_timescheduleitem FOREIGN KEY (id_timescheduleitem) REFERENCES public.timescheduleitem(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4540 (class 2606 OID 43664)
+-- Name: budgettimeschedule budgettimeschedule__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgettimeschedule
+    ADD CONSTRAINT budgettimeschedule__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4541 (class 2606 OID 43670)
+-- Name: budgettimeschedule budgettimeschedule__id_timeschedule; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.budgettimeschedule
+    ADD CONSTRAINT budgettimeschedule__id_timeschedule FOREIGN KEY (id_timeschedule) REFERENCES public.timeschedule(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4406 (class 2606 OID 17396)
+-- Name: calculation calculation__id_costestimate; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.calculation
+    ADD CONSTRAINT calculation__id_costestimate FOREIGN KEY (id_costestimate) REFERENCES public.costestimate(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4407 (class 2606 OID 17401)
+-- Name: calculation calculation__id_unit; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.calculation
+    ADD CONSTRAINT calculation__id_unit FOREIGN KEY (id_unit) REFERENCES public.unit(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4408 (class 2606 OID 17406)
+-- Name: calculationitem calculationitem__id_calculation; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.calculationitem
+    ADD CONSTRAINT calculationitem__id_calculation FOREIGN KEY (id_calculation) REFERENCES public.calculation(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4409 (class 2606 OID 17411)
+-- Name: canticipated canticipated__id_contractitem->contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.canticipated
+    ADD CONSTRAINT "canticipated__id_contractitem->contractitem" FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4410 (class 2606 OID 17416)
+-- Name: cashflow cashflow__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflow
+    ADD CONSTRAINT cashflow__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4411 (class 2606 OID 17421)
+-- Name: cashflowanticipated cashflowanticipated__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowanticipated
+    ADD CONSTRAINT cashflowanticipated__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id);
+
+
+--
+-- TOC entry 4412 (class 2606 OID 17426)
+-- Name: cashflowanticipated cashflowanticipated__id_cashflowitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowanticipated
+    ADD CONSTRAINT cashflowanticipated__id_cashflowitem FOREIGN KEY (id_cashflowitem) REFERENCES public.cashflowitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4413 (class 2606 OID 17431)
+-- Name: cashflowcontract cashflowcontract__id_cashflowitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowcontract
+    ADD CONSTRAINT cashflowcontract__id_cashflowitem FOREIGN KEY (id_cashflowitem) REFERENCES public.cashflowitem(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4414 (class 2606 OID 17436)
+-- Name: cashflowcontract cashflowcontract__id_contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowcontract
+    ADD CONSTRAINT cashflowcontract__id_contractitem FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4415 (class 2606 OID 17441)
+-- Name: cashflowitem cashflowitem__id_cashflow; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowitem
+    ADD CONSTRAINT cashflowitem__id_cashflow FOREIGN KEY (id_cashflow) REFERENCES public.cashflow(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4416 (class 2606 OID 17446)
+-- Name: cashflowvaluetoplace cashflowvaluetoplace__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowvaluetoplace
+    ADD CONSTRAINT cashflowvaluetoplace__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id);
+
+
+--
+-- TOC entry 4417 (class 2606 OID 17451)
+-- Name: cashflowvaluetoplace cashflowvaluetoplace__id_casflowitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cashflowvaluetoplace
+    ADD CONSTRAINT cashflowvaluetoplace__id_casflowitem FOREIGN KEY (id_cashflowitem) REFERENCES public.cashflowitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4513 (class 2606 OID 17456)
+-- Name: trade category__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trade
+    ADD CONSTRAINT category__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4418 (class 2606 OID 17461)
+-- Name: changeorder changeorder__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changeorder
+    ADD CONSTRAINT changeorder__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4419 (class 2606 OID 17466)
+-- Name: changeorderitem changeorderitem__id_changeorder; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changeorderitem
+    ADD CONSTRAINT changeorderitem__id_changeorder FOREIGN KEY (id_changeorder) REFERENCES public.changeorder(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4420 (class 2606 OID 17471)
+-- Name: changeorderitem changeorderitem__id_contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changeorderitem
+    ADD CONSTRAINT changeorderitem__id_contractitem FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4421 (class 2606 OID 17476)
+-- Name: changerequest changerequest__id_company-->company; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequest
+    ADD CONSTRAINT "changerequest__id_company-->company" FOREIGN KEY (id_company) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4422 (class 2606 OID 17481)
+-- Name: changerequest changerequest__id_contract->contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequest
+    ADD CONSTRAINT "changerequest__id_contract->contract" FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4423 (class 2606 OID 17486)
+-- Name: changerequestitem changerequestitem__id_changerequest->changerequest; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequestitem
+    ADD CONSTRAINT "changerequestitem__id_changerequest->changerequest" FOREIGN KEY (id_changerequest) REFERENCES public.changerequest(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4424 (class 2606 OID 17491)
+-- Name: changerequestitem changerequestitem__id_contractitem->contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequestitem
+    ADD CONSTRAINT "changerequestitem__id_contractitem->contractitem" FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4425 (class 2606 OID 17496)
+-- Name: changerequestitemrevision changerequestitemrevision__id_changerequestitem->changere; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.changerequestitemrevision
+    ADD CONSTRAINT "changerequestitemrevision__id_changerequestitem->changere" FOREIGN KEY (id_changerequestitem) REFERENCES public.changerequestitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4426 (class 2606 OID 17501)
+-- Name: company company__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.company
+    ADD CONSTRAINT company__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4427 (class 2606 OID 17506)
+-- Name: companyaddress companyaddress__id_address; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.companyaddress
+    ADD CONSTRAINT companyaddress__id_address FOREIGN KEY (id_address) REFERENCES public.address(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4428 (class 2606 OID 17511)
+-- Name: companyaddress companyaddress__id_company; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.companyaddress
+    ADD CONSTRAINT companyaddress__id_company FOREIGN KEY (id_company) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4429 (class 2606 OID 17516)
+-- Name: companytrade companycategory__id_company; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.companytrade
+    ADD CONSTRAINT companycategory__id_company FOREIGN KEY (id_company) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4430 (class 2606 OID 17521)
+-- Name: companytrade companytrade__id_trade; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.companytrade
+    ADD CONSTRAINT companytrade__id_trade FOREIGN KEY (id_trade) REFERENCES public.trade(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4431 (class 2606 OID 17526)
+-- Name: contract contract__id_company; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contract
+    ADD CONSTRAINT contract__id_company FOREIGN KEY (id_company) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4432 (class 2606 OID 17531)
+-- Name: contract contract__id_currency; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contract
+    ADD CONSTRAINT contract__id_currency FOREIGN KEY (id_currency) REFERENCES public.currency(id);
+
+
+--
+-- TOC entry 4433 (class 2606 OID 17536)
+-- Name: contract contract__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contract
+    ADD CONSTRAINT contract__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4434 (class 2606 OID 17541)
+-- Name: contractcategory contractcategory__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contractcategory
+    ADD CONSTRAINT contractcategory__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4435 (class 2606 OID 17546)
+-- Name: contractitem contractitem__id_category; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contractitem
+    ADD CONSTRAINT contractitem__id_category FOREIGN KEY (id_category) REFERENCES public.contractcategory(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4436 (class 2606 OID 17551)
+-- Name: contractitem contractitem__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.contractitem
+    ADD CONSTRAINT contractitem__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4437 (class 2606 OID 17556)
+-- Name: costestimate costestimate__id_currency; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimate
+    ADD CONSTRAINT costestimate__id_currency FOREIGN KEY (id_currency) REFERENCES public.currency(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4438 (class 2606 OID 17561)
+-- Name: costestimate costestimate__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimate
+    ADD CONSTRAINT costestimate__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4439 (class 2606 OID 17566)
+-- Name: costestimate costestimate__id_targetcurrency; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimate
+    ADD CONSTRAINT costestimate__id_targetcurrency FOREIGN KEY (id_targetcurrency) REFERENCES public.currency(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4440 (class 2606 OID 17571)
+-- Name: costestimatecategory costestimatecategory__id_costestimate; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimatecategory
+    ADD CONSTRAINT costestimatecategory__id_costestimate FOREIGN KEY (id_costestimate) REFERENCES public.costestimate(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4441 (class 2606 OID 17576)
+-- Name: costestimateitem costestimateitem__id_category; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimateitem
+    ADD CONSTRAINT costestimateitem__id_category FOREIGN KEY (id_category) REFERENCES public.costestimatecategory(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4442 (class 2606 OID 17581)
+-- Name: costestimateitem costestimateitem__id_costestimate; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimateitem
+    ADD CONSTRAINT costestimateitem__id_costestimate FOREIGN KEY (id_costestimate) REFERENCES public.costestimate(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4443 (class 2606 OID 17586)
+-- Name: costestimateitem costestimateitem__id_unit; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.costestimateitem
+    ADD CONSTRAINT costestimateitem__id_unit FOREIGN KEY (id_unit) REFERENCES public.unit(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4444 (class 2606 OID 17591)
+-- Name: downpayment downpayment__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.downpayment
+    ADD CONSTRAINT downpayment__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4445 (class 2606 OID 17596)
+-- Name: downpayment downpayment__sendby; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.downpayment
+    ADD CONSTRAINT downpayment__sendby FOREIGN KEY (sendby) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4446 (class 2606 OID 17601)
+-- Name: downpayment downpayment__sendto; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.downpayment
+    ADD CONSTRAINT downpayment__sendto FOREIGN KEY (sendto) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4447 (class 2606 OID 17606)
+-- Name: downpaymentitem downpaymentitem__id_downpayment; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.downpaymentitem
+    ADD CONSTRAINT downpaymentitem__id_downpayment FOREIGN KEY (id_downpayment) REFERENCES public.downpayment(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4448 (class 2606 OID 17611)
+-- Name: downpaymentitem downpaymentitem__id_invoice; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.downpaymentitem
+    ADD CONSTRAINT downpaymentitem__id_invoice FOREIGN KEY (id_invoice) REFERENCES public.invoice(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4449 (class 2606 OID 17616)
+-- Name: f2item f2item__id_f2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.f2item
+    ADD CONSTRAINT f2item__id_f2 FOREIGN KEY (id_f2) REFERENCES public.f2(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4450 (class 2606 OID 17621)
+-- Name: file file__id_category; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file
+    ADD CONSTRAINT file__id_category FOREIGN KEY (id_category) REFERENCES public.filecategory(id);
+
+
+--
+-- TOC entry 4451 (class 2606 OID 17626)
+-- Name: file file__id_dbasetable; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file
+    ADD CONSTRAINT file__id_dbasetable FOREIGN KEY (id_dbasetable) REFERENCES public.tables(id);
+
+
+--
+-- TOC entry 4452 (class 2606 OID 17631)
+-- Name: file file__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file
+    ADD CONSTRAINT file__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4453 (class 2606 OID 17636)
+-- Name: file file__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file
+    ADD CONSTRAINT file__id_project FOREIGN KEY (id_project) REFERENCES public.project(id);
+
+
+--
+-- TOC entry 4454 (class 2606 OID 17641)
+-- Name: filecategory filecategory__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.filecategory
+    ADD CONSTRAINT filecategory__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4455 (class 2606 OID 17646)
+-- Name: groups group__id_currency; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.groups
+    ADD CONSTRAINT group__id_currency FOREIGN KEY (id_currency) REFERENCES public.currency(id);
+
+
+--
+-- TOC entry 4456 (class 2606 OID 17651)
+-- Name: groups groups__id_country->countries; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.groups
+    ADD CONSTRAINT "groups__id_country->countries" FOREIGN KEY (id_country) REFERENCES public.countries(id) ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 4537 (class 2606 OID 43529)
+-- Name: timescheduleitemlink id_source__id_timescheduleitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitemlink
+    ADD CONSTRAINT id_source__id_timescheduleitem FOREIGN KEY (id_source) REFERENCES public.timescheduleitem(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4538 (class 2606 OID 43535)
+-- Name: timescheduleitemlink id_target__id_timescheduleitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitemlink
+    ADD CONSTRAINT id_target__id_timescheduleitem FOREIGN KEY (id_target) REFERENCES public.timescheduleitem(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4457 (class 2606 OID 17656)
+-- Name: interim interim__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.interim
+    ADD CONSTRAINT interim__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4458 (class 2606 OID 17661)
+-- Name: interimitem interimitem__id_contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.interimitem
+    ADD CONSTRAINT interimitem__id_contractitem FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4459 (class 2606 OID 17666)
+-- Name: interimitem interimitem__id_interim; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.interimitem
+    ADD CONSTRAINT interimitem__id_interim FOREIGN KEY (id_interim) REFERENCES public.interim(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4460 (class 2606 OID 17671)
+-- Name: internals internals__id_group->groups.id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.internals
+    ADD CONSTRAINT "internals__id_group->groups.id" FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4461 (class 2606 OID 17676)
+-- Name: invoice invoice__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoice
+    ADD CONSTRAINT invoice__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4462 (class 2606 OID 17681)
+-- Name: invoice invoice__sendby; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoice
+    ADD CONSTRAINT invoice__sendby FOREIGN KEY (sendby) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4463 (class 2606 OID 17686)
+-- Name: invoice invoice__sendto; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoice
+    ADD CONSTRAINT invoice__sendto FOREIGN KEY (sendto) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4464 (class 2606 OID 17691)
+-- Name: invoiceitem invoiceitem__id_contractitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoiceitem
+    ADD CONSTRAINT invoiceitem__id_contractitem FOREIGN KEY (id_contractitem) REFERENCES public.contractitem(id);
+
+
+--
+-- TOC entry 4465 (class 2606 OID 17696)
+-- Name: invoiceitem invoiceitem__id_invoice; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoiceitem
+    ADD CONSTRAINT invoiceitem__id_invoice FOREIGN KEY (id_invoice) REFERENCES public.invoice(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4466 (class 2606 OID 17701)
+-- Name: land land__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.land
+    ADD CONSTRAINT land__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4467 (class 2606 OID 17706)
+-- Name: milestone milestone__id_milestonetype; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.milestone
+    ADD CONSTRAINT milestone__id_milestonetype FOREIGN KEY (id_milestonetype) REFERENCES public.milestonetype(id);
+
+
+--
+-- TOC entry 4468 (class 2606 OID 17711)
+-- Name: milestone milestone__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.milestone
+    ADD CONSTRAINT milestone__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4469 (class 2606 OID 17716)
+-- Name: object object__id_objectcode->objectcode; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.object
+    ADD CONSTRAINT "object__id_objectcode->objectcode" FOREIGN KEY (id_objectcode) REFERENCES public.objectcode(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4470 (class 2606 OID 17721)
+-- Name: object object__id_project->project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.object
+    ADD CONSTRAINT "object__id_project->project" FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4471 (class 2606 OID 17726)
+-- Name: object object__id_table->tableareas; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.object
+    ADD CONSTRAINT "object__id_table->tableareas" FOREIGN KEY (id_table) REFERENCES public.tableareas(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4472 (class 2606 OID 17731)
+-- Name: objectcode objectcode__id_project->project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.objectcode
+    ADD CONSTRAINT "objectcode__id_project->project" FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4473 (class 2606 OID 17736)
+-- Name: person person__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.person
+    ADD CONSTRAINT person__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4474 (class 2606 OID 17741)
+-- Name: personcompany personcompany__id_company; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personcompany
+    ADD CONSTRAINT personcompany__id_company FOREIGN KEY (id_company) REFERENCES public.company(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4475 (class 2606 OID 17746)
+-- Name: personcompany personcompany__id_person; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personcompany
+    ADD CONSTRAINT personcompany__id_person FOREIGN KEY (id_person) REFERENCES public.person(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4476 (class 2606 OID 17751)
+-- Name: personteam personteam__id_person; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personteam
+    ADD CONSTRAINT personteam__id_person FOREIGN KEY (id_person) REFERENCES public.person(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4477 (class 2606 OID 17756)
+-- Name: personteam personteam__id_team; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.personteam
+    ADD CONSTRAINT personteam__id_team FOREIGN KEY (id_team) REFERENCES public.team(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4478 (class 2606 OID 17761)
+-- Name: predefinedquantity predefinedquantity__id_costestimate; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantity
+    ADD CONSTRAINT predefinedquantity__id_costestimate FOREIGN KEY (id_costestimate) REFERENCES public.costestimate(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4479 (class 2606 OID 17766)
+-- Name: predefinedquantity predefinedquantity__id_unit; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantity
+    ADD CONSTRAINT predefinedquantity__id_unit FOREIGN KEY (id_unit) REFERENCES public.unit(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4480 (class 2606 OID 17771)
+-- Name: predefinedquantity predefinedquantitycategory__id_category; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantity
+    ADD CONSTRAINT predefinedquantitycategory__id_category FOREIGN KEY (id_category) REFERENCES public.predefinedquantitycategory(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4481 (class 2606 OID 17776)
+-- Name: predefinedquantitycategory predefinedquantitycategory__id_costestimate; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantitycategory
+    ADD CONSTRAINT predefinedquantitycategory__id_costestimate FOREIGN KEY (id_costestimate) REFERENCES public.costestimate(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4482 (class 2606 OID 17781)
+-- Name: predefinedquantitycategory predefinedquantitycategory__id_projectobject; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedquantitycategory
+    ADD CONSTRAINT predefinedquantitycategory__id_projectobject FOREIGN KEY (id_projectobject) REFERENCES public.projectobject(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4483 (class 2606 OID 17786)
+-- Name: predefinedunitprice predefinedunitprice__id_costestimate; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitprice
+    ADD CONSTRAINT predefinedunitprice__id_costestimate FOREIGN KEY (id_costestimate) REFERENCES public.costestimate(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4484 (class 2606 OID 17791)
+-- Name: predefinedunitprice predefinedup__id_category; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitprice
+    ADD CONSTRAINT predefinedup__id_category FOREIGN KEY (id_category) REFERENCES public.predefinedunitpricecategory(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4485 (class 2606 OID 17796)
+-- Name: predefinedunitprice predefinedup__id_currency; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitprice
+    ADD CONSTRAINT predefinedup__id_currency FOREIGN KEY (id_currency) REFERENCES public.currency(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4486 (class 2606 OID 17801)
+-- Name: predefinedunitprice predefinedup__id_unit; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitprice
+    ADD CONSTRAINT predefinedup__id_unit FOREIGN KEY (id_unit) REFERENCES public.unit(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4487 (class 2606 OID 17806)
+-- Name: predefinedunitpricecategory predefinedupcategory__id_costestimate; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.predefinedunitpricecategory
+    ADD CONSTRAINT predefinedupcategory__id_costestimate FOREIGN KEY (id_costestimate) REFERENCES public.costestimate(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4488 (class 2606 OID 17811)
+-- Name: project project__id_company; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.project
+    ADD CONSTRAINT project__id_company FOREIGN KEY (id_company) REFERENCES public.company(id);
+
+
+--
+-- TOC entry 4489 (class 2606 OID 17816)
+-- Name: project project__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.project
+    ADD CONSTRAINT project__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4490 (class 2606 OID 17821)
+-- Name: projectobjectland projectobjectland__id_land; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobjectland
+    ADD CONSTRAINT projectobjectland__id_land FOREIGN KEY (id_land) REFERENCES public.land(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4491 (class 2606 OID 17826)
+-- Name: projectobjectland projectobjectland__id_projectobject; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobjectland
+    ADD CONSTRAINT projectobjectland__id_projectobject FOREIGN KEY (id_projectobject) REFERENCES public.projectobject(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4492 (class 2606 OID 17831)
+-- Name: projectobjectstage projectobjectstage__id_object; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobjectstage
+    ADD CONSTRAINT projectobjectstage__id_object FOREIGN KEY (id_object) REFERENCES public.projectobject(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4493 (class 2606 OID 17836)
+-- Name: projectobjectstage projectobjectstage__id_stage; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.projectobjectstage
+    ADD CONSTRAINT projectobjectstage__id_stage FOREIGN KEY (id_stage) REFERENCES public.projectstage(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4494 (class 2606 OID 17841)
+-- Name: record record__id_dbasetable->tables; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.record
+    ADD CONSTRAINT "record__id_dbasetable->tables" FOREIGN KEY (id_table) REFERENCES public.tables(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4495 (class 2606 OID 17846)
+-- Name: record record__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.record
+    ADD CONSTRAINT record__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4496 (class 2606 OID 17851)
+-- Name: record record__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.record
+    ADD CONSTRAINT record__id_user FOREIGN KEY (id_user) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 4497 (class 2606 OID 17856)
+-- Name: retention retention__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.retention
+    ADD CONSTRAINT retention__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4498 (class 2606 OID 17861)
+-- Name: retention retention__id_invoice; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.retention
+    ADD CONSTRAINT retention__id_invoice FOREIGN KEY (id_invoice) REFERENCES public.invoice(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4499 (class 2606 OID 17866)
+-- Name: retention retention__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.retention
+    ADD CONSTRAINT retention__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4500 (class 2606 OID 17871)
+-- Name: tableareas tableareas__id_project–>project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tableareas
+    ADD CONSTRAINT "tableareas__id_project–>project" FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4501 (class 2606 OID 17876)
+-- Name: task task__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.task
+    ADD CONSTRAINT task__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4502 (class 2606 OID 17881)
+-- Name: task task__id_milestone; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.task
+    ADD CONSTRAINT task__id_milestone FOREIGN KEY (id_milestone) REFERENCES public.milestone(id);
+
+
+--
+-- TOC entry 4503 (class 2606 OID 17886)
+-- Name: task task__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.task
+    ADD CONSTRAINT task__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4504 (class 2606 OID 17891)
+-- Name: taskperson taskperson__id_person; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.taskperson
+    ADD CONSTRAINT taskperson__id_person FOREIGN KEY (id_person) REFERENCES public.person(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4505 (class 2606 OID 17896)
+-- Name: taskperson taskperson__id_task; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.taskperson
+    ADD CONSTRAINT taskperson__id_task FOREIGN KEY (id_task) REFERENCES public.task(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4506 (class 2606 OID 17901)
+-- Name: taskteam taskteam__id_task; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.taskteam
+    ADD CONSTRAINT taskteam__id_task FOREIGN KEY (id_task) REFERENCES public.task(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4507 (class 2606 OID 17906)
+-- Name: taskteam taskteam__id_team; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.taskteam
+    ADD CONSTRAINT taskteam__id_team FOREIGN KEY (id_team) REFERENCES public.team(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4508 (class 2606 OID 17911)
+-- Name: team team__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.team
+    ADD CONSTRAINT team__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4535 (class 2606 OID 43468)
+-- Name: timeschedule timeschedule__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timeschedule
+    ADD CONSTRAINT timeschedule__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4534 (class 2606 OID 43481)
+-- Name: timeschedulecategory timeschedulecategory__id_timeschedule; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timeschedulecategory
+    ADD CONSTRAINT timeschedulecategory__id_timeschedule FOREIGN KEY (id_timeschedule) REFERENCES public.timeschedule(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4536 (class 2606 OID 43522)
+-- Name: timescheduleitem timescheduleitem__id_timeschedulecategory; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitem
+    ADD CONSTRAINT timescheduleitem__id_timeschedulecategory FOREIGN KEY (id_timeschedulecategory) REFERENCES public.timeschedulecategory(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4539 (class 2606 OID 43546)
+-- Name: timescheduleitemlink timeschedulelink__id_timeschedule; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timescheduleitemlink
+    ADD CONSTRAINT timeschedulelink__id_timeschedule FOREIGN KEY (id_timeschedule) REFERENCES public.timeschedule(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 4509 (class 2606 OID 17916)
+-- Name: timesheetitem timesheetitem_id_userrole; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.timesheetitem
+    ADD CONSTRAINT timesheetitem_id_userrole FOREIGN KEY (id_userrole) REFERENCES public.userrole(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4510 (class 2606 OID 17921)
+-- Name: tracking tracking__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tracking
+    ADD CONSTRAINT tracking__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4511 (class 2606 OID 17926)
+-- Name: tracking tracking__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tracking
+    ADD CONSTRAINT tracking__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4512 (class 2606 OID 17931)
+-- Name: tracking tracking_id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tracking
+    ADD CONSTRAINT tracking_id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4514 (class 2606 OID 17936)
+-- Name: transfer transfer__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfer
+    ADD CONSTRAINT transfer__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4515 (class 2606 OID 17941)
+-- Name: transfer transfer__id_budgetitemfrom; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfer
+    ADD CONSTRAINT transfer__id_budgetitemfrom FOREIGN KEY (id_budgetitemfrom) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4516 (class 2606 OID 17946)
+-- Name: transfer transfer__id_budgetitemto; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfer
+    ADD CONSTRAINT transfer__id_budgetitemto FOREIGN KEY (id_budgetitemto) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4527 (class 2606 OID 17951)
+-- Name: users user__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4528 (class 2606 OID 17956)
+-- Name: users user__id_language; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user__id_language FOREIGN KEY (id_language) REFERENCES public.language(id);
+
+
+--
+-- TOC entry 4529 (class 2606 OID 17961)
+-- Name: users user__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT user__id_project FOREIGN KEY (id_project) REFERENCES public.project(id);
+
+
+--
+-- TOC entry 4517 (class 2606 OID 17966)
+-- Name: user_favorite user_favorite__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite
+    ADD CONSTRAINT user_favorite__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4518 (class 2606 OID 17971)
+-- Name: user_favorite user_favorite__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite
+    ADD CONSTRAINT user_favorite__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4519 (class 2606 OID 17976)
+-- Name: user_groupright user_groupright__id_group; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_groupright
+    ADD CONSTRAINT user_groupright__id_group FOREIGN KEY (id_group) REFERENCES public.groups(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4520 (class 2606 OID 17981)
+-- Name: user_groupright user_groupright__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_groupright
+    ADD CONSTRAINT user_groupright__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4521 (class 2606 OID 17986)
+-- Name: user_right user_right__id_project; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_right
+    ADD CONSTRAINT user_right__id_project FOREIGN KEY (id_project) REFERENCES public.project(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4522 (class 2606 OID 17991)
+-- Name: user_right user_right__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_right
+    ADD CONSTRAINT user_right__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4523 (class 2606 OID 17996)
+-- Name: userprofile userprofile__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userprofile
+    ADD CONSTRAINT userprofile__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4524 (class 2606 OID 18001)
+-- Name: userrole userrole__id_budget; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userrole
+    ADD CONSTRAINT userrole__id_budget FOREIGN KEY (id_budget) REFERENCES public.budget(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4525 (class 2606 OID 18006)
+-- Name: userrole userrole__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userrole
+    ADD CONSTRAINT userrole__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4526 (class 2606 OID 18011)
+-- Name: userrole userrole__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userrole
+    ADD CONSTRAINT userrole__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4530 (class 2606 OID 18016)
+-- Name: userswitch userswitch__id_user; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.userswitch
+    ADD CONSTRAINT userswitch__id_user FOREIGN KEY (id_user) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4531 (class 2606 OID 18021)
+-- Name: valuetoplace valuetoplace__id_budgetitem; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.valuetoplace
+    ADD CONSTRAINT valuetoplace__id_budgetitem FOREIGN KEY (id_budgetitem) REFERENCES public.budgetitem(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4532 (class 2606 OID 18026)
+-- Name: vat vat__id_contract; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vat
+    ADD CONSTRAINT vat__id_contract FOREIGN KEY (id_contract) REFERENCES public.contract(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 4533 (class 2606 OID 18031)
+-- Name: vat vat__id_invoice; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vat
+    ADD CONSTRAINT vat__id_invoice FOREIGN KEY (id_invoice) REFERENCES public.invoice(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+-- Completed on 2024-08-22 16:47:34 CEST
+
+--
+-- PostgreSQL database dump complete
+--
+
