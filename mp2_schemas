@@ -24,7 +24,7 @@ SET row_security = off;
 --
 
 CREATE SEQUENCE public.address_id_seq
-    START WITH 303
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -60,7 +60,7 @@ CREATE TABLE public.address (
 --
 
 CREATE SEQUENCE public.adjustment_id_seq
-    START WITH 149
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -88,7 +88,7 @@ CREATE TABLE public.adjustment (
 --
 
 CREATE SEQUENCE public.amendment_id_seq
-    START WITH 18
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -116,7 +116,7 @@ CREATE TABLE public.amendment (
 --
 
 CREATE SEQUENCE public.amendmentitem_id_seq
-    START WITH 31
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -144,7 +144,7 @@ CREATE TABLE public.amendmentitem (
 --
 
 CREATE SEQUENCE public.anticipated_id_seq
-    START WITH 49
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -260,7 +260,7 @@ CREATE TABLE public.boqitem (
 --
 
 CREATE SEQUENCE public.budget_id_seq
-    START WITH 474
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -291,7 +291,7 @@ CREATE TABLE public.budget (
 --
 
 CREATE SEQUENCE public.budgetcategory_id_seq
-    START WITH 2176
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -319,7 +319,7 @@ CREATE TABLE public.budgetcategory (
 --
 
 CREATE SEQUENCE public.budgetcontract_id_seq
-    START WITH 1091
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -345,7 +345,7 @@ CREATE TABLE public.budgetcontract (
 --
 
 CREATE SEQUENCE public.budgetinvoice_id_seq
-    START WITH 1746
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -371,7 +371,7 @@ CREATE TABLE public.budgetinvoice (
 --
 
 CREATE SEQUENCE public.budgetitem_id_seq
-    START WITH 7931
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -402,7 +402,7 @@ CREATE TABLE public.budgetitem (
 --
 
 CREATE SEQUENCE public.budgetitemcontractitem_id_seq
-    START WITH 1434
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -589,7 +589,7 @@ ALTER SEQUENCE public.canticipated_id_seq OWNED BY public.canticipated.id;
 --
 
 CREATE SEQUENCE public.cashflow_id_seq
-    START WITH 8
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -618,7 +618,7 @@ CREATE TABLE public.cashflow (
 --
 
 CREATE SEQUENCE public.cashflowanticipated_id_seq
-    START WITH 2
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -645,7 +645,7 @@ CREATE TABLE public.cashflowanticipated (
 --
 
 CREATE SEQUENCE public.cashflowcontract_id_seq
-    START WITH 728
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -672,7 +672,7 @@ CREATE TABLE public.cashflowcontract (
 --
 
 CREATE SEQUENCE public.cashflowitem_id_seq
-    START WITH 390
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -699,7 +699,7 @@ CREATE TABLE public.cashflowitem (
 --
 
 CREATE SEQUENCE public.cashflowvaluetoplace_id_seq
-    START WITH 2
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -726,7 +726,7 @@ CREATE TABLE public.cashflowvaluetoplace (
 --
 
 CREATE SEQUENCE public.changeorder_id_seq
-    START WITH 10
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -755,7 +755,7 @@ CREATE TABLE public.changeorder (
 --
 
 CREATE SEQUENCE public.changeorderitem_id_seq
-    START WITH 9
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -902,7 +902,7 @@ ALTER SEQUENCE public.changerequestitemrevision_id_seq OWNED BY public.changereq
 --
 
 CREATE SEQUENCE public.company_id_seq
-    START WITH 494
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -937,7 +937,7 @@ CREATE TABLE public.company (
 --
 
 CREATE SEQUENCE public.companyaddress_id_seq
-    START WITH 287
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -965,7 +965,7 @@ CREATE TABLE public.companyaddress (
 --
 
 CREATE SEQUENCE public.companytrade_id_seq
-    START WITH 35
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -991,7 +991,7 @@ CREATE TABLE public.companytrade (
 --
 
 CREATE SEQUENCE public.contract_id_seq
-    START WITH 971
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1043,7 +1043,7 @@ CREATE TABLE public.contract (
 --
 
 CREATE SEQUENCE public.contractcategory_id_seq
-    START WITH 1028
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1071,7 +1071,7 @@ CREATE TABLE public.contractcategory (
 --
 
 CREATE SEQUENCE public.contractitem_id_seq
-    START WITH 3127
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1234,7 +1234,7 @@ COMMENT ON TABLE public.costestimateitem IS 'Cost Estimate Item ';
 --
 
 CREATE SEQUENCE public.countries_id_seq
-    START WITH 250
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1420,7 +1420,7 @@ COMMENT ON COLUMN public.f2item.twinorder IS '1 - first twin then quantity e.g. 
 --
 
 CREATE SEQUENCE public.file_id_seq
-    START WITH 1951
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1455,7 +1455,7 @@ CREATE TABLE public.file (
 --
 
 CREATE SEQUENCE public.filecategory_id_seq
-    START WITH 38147
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1483,7 +1483,7 @@ CREATE TABLE public.filecategory (
 --
 
 CREATE SEQUENCE public.groups_id_seq
-    START WITH 13
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1510,7 +1510,7 @@ CREATE TABLE public.groups (
 --
 
 CREATE SEQUENCE public.interim_id_seq
-    START WITH 9
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1543,7 +1543,7 @@ CREATE TABLE public.interim (
 --
 
 CREATE SEQUENCE public.interimitem_id_seq
-    START WITH 18
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1611,7 +1611,7 @@ ALTER SEQUENCE public.internals_id_seq OWNED BY public.internals.id;
 --
 
 CREATE SEQUENCE public.invoice_id_seq
-    START WITH 1564
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1646,7 +1646,7 @@ CREATE TABLE public.invoice (
 --
 
 CREATE SEQUENCE public.invoiceitem_id_seq
-    START WITH 1659
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1711,7 +1711,7 @@ COMMENT ON COLUMN public.land.status IS '1 - past
 --
 
 CREATE SEQUENCE public.language_id_seq
-    START WITH 4
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1735,7 +1735,7 @@ CREATE TABLE public.language (
 --
 
 CREATE SEQUENCE public.milestone_id_seq
-    START WITH 2
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1765,7 +1765,7 @@ CREATE TABLE public.milestone (
 --
 
 CREATE SEQUENCE public.milestonetype_id_seq
-    START WITH 8
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1869,7 +1869,7 @@ ALTER SEQUENCE public.objectcode_id_seq OWNED BY public.objectcode.id;
 --
 
 CREATE SEQUENCE public.person_id_seq
-    START WITH 136
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1900,7 +1900,7 @@ CREATE TABLE public.person (
 --
 
 CREATE SEQUENCE public.personcompany_id_seq
-    START WITH 100
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1927,7 +1927,7 @@ CREATE TABLE public.personcompany (
 --
 
 CREATE SEQUENCE public.personteam_id_seq
-    START WITH 26
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2135,7 +2135,7 @@ CREATE TABLE public.predefinedunitpriceoperation (
 --
 
 CREATE SEQUENCE public.project_id_seq
-    START WITH 279
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2310,7 +2310,7 @@ CREATE TABLE public.projectstage (
 --
 
 CREATE SEQUENCE public.record_id_seq
-    START WITH 101084
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2344,7 +2344,7 @@ CREATE TABLE public.record (
 --
 
 CREATE SEQUENCE public.retention_id_seq
-    START WITH 1296
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2377,7 +2377,7 @@ CREATE TABLE public.retention (
 --
 
 CREATE SEQUENCE public.s_id_seq
-    START WITH 51909
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2442,7 +2442,7 @@ ALTER SEQUENCE public.tableareas_id_seq OWNED BY public.tableareas.id;
 --
 
 CREATE SEQUENCE public.tables_id_seq
-    START WITH 110
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2466,7 +2466,7 @@ CREATE TABLE public.tables (
 --
 
 CREATE SEQUENCE public.task_id_seq
-    START WITH 2
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2499,7 +2499,7 @@ CREATE TABLE public.task (
 --
 
 CREATE SEQUENCE public.taskperson_id_seq
-    START WITH 2
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2524,7 +2524,7 @@ CREATE TABLE public.taskperson (
 --
 
 CREATE SEQUENCE public.taskteam_id_seq
-    START WITH 2
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2549,7 +2549,7 @@ CREATE TABLE public.taskteam (
 --
 
 CREATE SEQUENCE public.team_id_seq
-    START WITH 3
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2742,7 +2742,7 @@ ALTER SEQUENCE public.timescheduleitemlink_id_seq OWNED BY public.timescheduleit
 --
 
 CREATE SEQUENCE public.timesheetitem_id_seq
-    START WITH 15464
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2771,7 +2771,7 @@ CREATE TABLE public.timesheetitem (
 --
 
 CREATE SEQUENCE public.tracking_id_seq
-    START WITH 4538
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2801,7 +2801,7 @@ CREATE TABLE public.tracking (
 --
 
 CREATE SEQUENCE public.trade_id_seq
-    START WITH 248
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2829,7 +2829,7 @@ CREATE TABLE public.trade (
 --
 
 CREATE SEQUENCE public.transfer_id_seq
-    START WITH 26
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2897,7 +2897,7 @@ COMMENT ON TABLE public.unit IS '1-volume
 --
 
 CREATE SEQUENCE public.user_favorite_id_seq
-    START WITH 70
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2924,7 +2924,7 @@ CREATE TABLE public.user_favorite (
 --
 
 CREATE SEQUENCE public.user_groupright_id_seq
-    START WITH 23
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2950,7 +2950,7 @@ CREATE TABLE public.user_groupright (
 --
 
 CREATE SEQUENCE public.user_right_id_seq
-    START WITH 12481
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2976,7 +2976,7 @@ CREATE TABLE public.user_right (
 --
 
 CREATE SEQUENCE public.userprofile_id_seq
-    START WITH 34
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -3009,7 +3009,7 @@ CREATE TABLE public.userprofile (
 --
 
 CREATE SEQUENCE public.userrole_id_seq
-    START WITH 1762
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -3039,7 +3039,7 @@ CREATE TABLE public.userrole (
 --
 
 CREATE SEQUENCE public.users_id_seq
-    START WITH 1900
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -3084,7 +3084,7 @@ CREATE TABLE public.users (
 --
 
 CREATE SEQUENCE public.userswitch_id_seq
-    START WITH 2545
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -3111,7 +3111,7 @@ CREATE TABLE public.userswitch (
 --
 
 CREATE SEQUENCE public.valuetoplace_id_seq
-    START WITH 35
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE

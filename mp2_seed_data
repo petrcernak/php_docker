@@ -1,0 +1,546 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.7 (Homebrew)
+-- Dumped by pg_dump version 14.1
+
+-- Started on 2024-08-22 17:22:39 CEST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4533 (class 0 OID 16663)
+-- Dependencies: 282
+-- Data for Name: countries; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.countries VALUES (1, 'AFGHANISTAN', 'AF');
+INSERT INTO public.countries VALUES (2, 'ALAND ISLANDS', 'AX');
+INSERT INTO public.countries VALUES (3, 'ALBANIA', 'AL');
+INSERT INTO public.countries VALUES (4, 'ALGERIA', 'DZ');
+INSERT INTO public.countries VALUES (5, 'AMERICAN SAMOA', 'AS');
+INSERT INTO public.countries VALUES (6, 'ANDORRA', 'AD');
+INSERT INTO public.countries VALUES (7, 'ANGOLA', 'AO');
+INSERT INTO public.countries VALUES (8, 'ANGUILLA', 'AI');
+INSERT INTO public.countries VALUES (9, 'ANTARCTICA', 'AQ');
+INSERT INTO public.countries VALUES (10, 'ANTIGUA AND BARBUDA', 'AG');
+INSERT INTO public.countries VALUES (11, 'ARGENTINA', 'AR');
+INSERT INTO public.countries VALUES (12, 'ARMENIA', 'AM');
+INSERT INTO public.countries VALUES (13, 'ARUBA', 'AW');
+INSERT INTO public.countries VALUES (14, 'AUSTRALIA', 'AU');
+INSERT INTO public.countries VALUES (15, 'AUSTRIA', 'AT');
+INSERT INTO public.countries VALUES (16, 'AZERBAIJAN', 'AZ');
+INSERT INTO public.countries VALUES (17, 'BAHAMAS', 'BS');
+INSERT INTO public.countries VALUES (18, 'BAHRAIN', 'BH');
+INSERT INTO public.countries VALUES (19, 'BANGLADESH', 'BD');
+INSERT INTO public.countries VALUES (20, 'BARBADOS', 'BB');
+INSERT INTO public.countries VALUES (21, 'BELARUS', 'BY');
+INSERT INTO public.countries VALUES (22, 'BELGIUM', 'BE');
+INSERT INTO public.countries VALUES (23, 'BELIZE', 'BZ');
+INSERT INTO public.countries VALUES (24, 'BENIN', 'BJ');
+INSERT INTO public.countries VALUES (25, 'BERMUDA', 'BM');
+INSERT INTO public.countries VALUES (26, 'BHUTAN', 'BT');
+INSERT INTO public.countries VALUES (27, 'BOLIVIA, PLURINATIONAL STATE OF', 'BO');
+INSERT INTO public.countries VALUES (28, 'BONAIRE, SAINT EUSTATIUS AND SABA', 'BQ');
+INSERT INTO public.countries VALUES (29, 'BOSNIA AND HERZEGOVINA', 'BA');
+INSERT INTO public.countries VALUES (30, 'BOTSWANA', 'BW');
+INSERT INTO public.countries VALUES (31, 'BOUVET ISLAND', 'BV');
+INSERT INTO public.countries VALUES (32, 'BRAZIL', 'BR');
+INSERT INTO public.countries VALUES (33, 'BRITISH INDIAN OCEAN TERRITORY', 'IO');
+INSERT INTO public.countries VALUES (34, 'BRUNEI DARUSSALAM', 'BN');
+INSERT INTO public.countries VALUES (35, 'BULGARIA', 'BG');
+INSERT INTO public.countries VALUES (36, 'BURKINA FASO', 'BF');
+INSERT INTO public.countries VALUES (37, 'BURUNDI', 'BI');
+INSERT INTO public.countries VALUES (38, 'CAMBODIA', 'KH');
+INSERT INTO public.countries VALUES (39, 'CAMEROON', 'CM');
+INSERT INTO public.countries VALUES (40, 'CANADA', 'CA');
+INSERT INTO public.countries VALUES (41, 'CAPE VERDE', 'CV');
+INSERT INTO public.countries VALUES (42, 'CAYMAN ISLANDS', 'KY');
+INSERT INTO public.countries VALUES (43, 'CENTRAL AFRICAN REPUBLIC', 'CF');
+INSERT INTO public.countries VALUES (44, 'COCOS (KEELING) ISLANDS', 'CC');
+INSERT INTO public.countries VALUES (45, 'COLOMBIA', 'CO');
+INSERT INTO public.countries VALUES (46, 'COMOROS', 'KM');
+INSERT INTO public.countries VALUES (47, 'CONGO', 'CG');
+INSERT INTO public.countries VALUES (48, 'CONGO, THE DEMOCRATIC REPUBLIC OF THE', 'CD');
+INSERT INTO public.countries VALUES (49, 'COOK ISLANDS', 'CK');
+INSERT INTO public.countries VALUES (50, 'COSTA RICA', 'CR');
+INSERT INTO public.countries VALUES (51, 'COTE D IVOIRE', 'CI');
+INSERT INTO public.countries VALUES (52, 'CROATIA', 'HR');
+INSERT INTO public.countries VALUES (53, 'CUBA', 'CU');
+INSERT INTO public.countries VALUES (54, 'CURACAO', 'CW');
+INSERT INTO public.countries VALUES (55, 'CYPRUS', 'CY');
+INSERT INTO public.countries VALUES (56, 'CZECH REPUBLIC', 'CZ');
+INSERT INTO public.countries VALUES (57, 'DENMARK', 'DK');
+INSERT INTO public.countries VALUES (58, 'DJIBOUTI', 'DJ');
+INSERT INTO public.countries VALUES (59, 'DOMINICA', 'DM');
+INSERT INTO public.countries VALUES (60, 'DOMINICAN REPUBLIC', 'DO');
+INSERT INTO public.countries VALUES (61, 'ECUADOR', 'EC');
+INSERT INTO public.countries VALUES (62, 'EGYPT', 'EG');
+INSERT INTO public.countries VALUES (63, 'EL SALVADOR', 'SV');
+INSERT INTO public.countries VALUES (64, 'EQUATORIAL GUINEA', 'GQ');
+INSERT INTO public.countries VALUES (65, 'ERITREA', 'ER');
+INSERT INTO public.countries VALUES (66, 'ESTONIA', 'EE');
+INSERT INTO public.countries VALUES (67, 'ETHIOPIA', 'ET');
+INSERT INTO public.countries VALUES (68, 'FALKLAND ISLANDS (MALVINAS)', 'FK');
+INSERT INTO public.countries VALUES (69, 'FAROE ISLANDS', 'FO');
+INSERT INTO public.countries VALUES (70, 'FIJI', 'FJ');
+INSERT INTO public.countries VALUES (71, 'FINLAND', 'FI');
+INSERT INTO public.countries VALUES (72, 'FRANCE', 'FR');
+INSERT INTO public.countries VALUES (73, 'FRENCH GUIANA', 'GF');
+INSERT INTO public.countries VALUES (74, 'FRENCH POLYNESIA', 'PF');
+INSERT INTO public.countries VALUES (75, 'FRENCH SOUTHERN TERRITORIES', 'TF');
+INSERT INTO public.countries VALUES (76, 'GABON', 'GA');
+INSERT INTO public.countries VALUES (77, 'GAMBIA', 'GM');
+INSERT INTO public.countries VALUES (78, 'GEORGIA', 'GE');
+INSERT INTO public.countries VALUES (79, 'GERMANY', 'DE');
+INSERT INTO public.countries VALUES (80, 'GHANA', 'GH');
+INSERT INTO public.countries VALUES (81, 'GIBRALTAR', 'GI');
+INSERT INTO public.countries VALUES (82, 'GREECE', 'GR');
+INSERT INTO public.countries VALUES (83, 'GREENLAND', 'GL');
+INSERT INTO public.countries VALUES (84, 'GRENADA', 'GD');
+INSERT INTO public.countries VALUES (85, 'GUADELOUPE', 'GP');
+INSERT INTO public.countries VALUES (86, 'GUAM', 'GU');
+INSERT INTO public.countries VALUES (87, 'GUATEMALA', 'GT');
+INSERT INTO public.countries VALUES (88, 'GUERNSEY', 'GG');
+INSERT INTO public.countries VALUES (89, 'GUINEA', 'GN');
+INSERT INTO public.countries VALUES (90, 'GUINEA-BISSAU', 'GW');
+INSERT INTO public.countries VALUES (91, 'GUYANA', 'GY');
+INSERT INTO public.countries VALUES (92, 'HAITI', 'HT');
+INSERT INTO public.countries VALUES (93, 'HEARD ISLAND AND MCDONALD ISLANDS', 'HM');
+INSERT INTO public.countries VALUES (94, 'HOLY SEE (VATICAN CITY STATE)', 'VA');
+INSERT INTO public.countries VALUES (95, 'HONDURAS', 'HN');
+INSERT INTO public.countries VALUES (96, 'HONG KONG', 'HK');
+INSERT INTO public.countries VALUES (97, 'HUNGARY', 'HU');
+INSERT INTO public.countries VALUES (98, 'CHAD', 'TD');
+INSERT INTO public.countries VALUES (99, 'CHILE', 'CL');
+INSERT INTO public.countries VALUES (100, 'CHINA', 'CN');
+INSERT INTO public.countries VALUES (101, 'CHRISTMAS ISLAND', 'CX');
+INSERT INTO public.countries VALUES (102, 'ICELAND', 'IS');
+INSERT INTO public.countries VALUES (103, 'INDIA', 'IN');
+INSERT INTO public.countries VALUES (104, 'INDONESIA', 'ID');
+INSERT INTO public.countries VALUES (105, 'IRAN, ISLAMIC REPUBLIC OF', 'IR');
+INSERT INTO public.countries VALUES (106, 'IRAQ', 'IQ');
+INSERT INTO public.countries VALUES (107, 'IRELAND', 'IE');
+INSERT INTO public.countries VALUES (108, 'ISLE OF MAN', 'IM');
+INSERT INTO public.countries VALUES (109, 'ISRAEL', 'IL');
+INSERT INTO public.countries VALUES (110, 'ITALY', 'IT');
+INSERT INTO public.countries VALUES (111, 'JAMAICA', 'JM');
+INSERT INTO public.countries VALUES (112, 'JAPAN', 'JP');
+INSERT INTO public.countries VALUES (113, 'JERSEY', 'JE');
+INSERT INTO public.countries VALUES (114, 'JORDAN', 'JO');
+INSERT INTO public.countries VALUES (115, 'KAZAKHSTAN', 'KZ');
+INSERT INTO public.countries VALUES (116, 'KENYA', 'KE');
+INSERT INTO public.countries VALUES (117, 'KIRIBATI', 'KI');
+INSERT INTO public.countries VALUES (118, 'KOREA, DEMOCRATIC PEOPLE S REPUBLIC OF', 'KP');
+INSERT INTO public.countries VALUES (119, 'KOREA, REPUBLIC OF', 'KR');
+INSERT INTO public.countries VALUES (120, 'KUWAIT', 'KW');
+INSERT INTO public.countries VALUES (121, 'KYRGYZSTAN', 'KG');
+INSERT INTO public.countries VALUES (122, 'LAO PEOPLE S DEMOCRATIC REPUBLIC', 'LA');
+INSERT INTO public.countries VALUES (123, 'LATVIA', 'LV');
+INSERT INTO public.countries VALUES (124, 'LEBANON', 'LB');
+INSERT INTO public.countries VALUES (125, 'LESOTHO', 'LS');
+INSERT INTO public.countries VALUES (126, 'LIBERIA', 'LR');
+INSERT INTO public.countries VALUES (127, 'LIBYAN ARAB JAMAHIRIYA', 'LY');
+INSERT INTO public.countries VALUES (128, 'LIECHTENSTEIN', 'LI');
+INSERT INTO public.countries VALUES (129, 'LITHUANIA', 'LT');
+INSERT INTO public.countries VALUES (130, 'LUXEMBOURG', 'LU');
+INSERT INTO public.countries VALUES (131, 'MACAO', 'MO');
+INSERT INTO public.countries VALUES (132, 'MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF', 'MK');
+INSERT INTO public.countries VALUES (133, 'MADAGASCAR', 'MG');
+INSERT INTO public.countries VALUES (134, 'MALAWI', 'MW');
+INSERT INTO public.countries VALUES (135, 'MALAYSIA', 'MY');
+INSERT INTO public.countries VALUES (136, 'MALDIVES', 'MV');
+INSERT INTO public.countries VALUES (137, 'MALI', 'ML');
+INSERT INTO public.countries VALUES (138, 'MALTA', 'MT');
+INSERT INTO public.countries VALUES (139, 'MARSHALL ISLANDS', 'MH');
+INSERT INTO public.countries VALUES (140, 'MARTINIQUE', 'MQ');
+INSERT INTO public.countries VALUES (141, 'MAURITANIA', 'MR');
+INSERT INTO public.countries VALUES (142, 'MAURITIUS', 'MU');
+INSERT INTO public.countries VALUES (143, 'MAYOTTE', 'YT');
+INSERT INTO public.countries VALUES (144, 'MEXICO', 'MX');
+INSERT INTO public.countries VALUES (145, 'MICRONESIA, FEDERATED STATES OF', 'FM');
+INSERT INTO public.countries VALUES (146, 'MOLDOVA, REPUBLIC OF', 'MD');
+INSERT INTO public.countries VALUES (147, 'MONACO', 'MC');
+INSERT INTO public.countries VALUES (148, 'MONGOLIA', 'MN');
+INSERT INTO public.countries VALUES (149, 'MONTENEGRO', 'ME');
+INSERT INTO public.countries VALUES (150, 'MONTSERRAT', 'MS');
+INSERT INTO public.countries VALUES (151, 'MOROCCO', 'MA');
+INSERT INTO public.countries VALUES (152, 'MOZAMBIQUE', 'MZ');
+INSERT INTO public.countries VALUES (153, 'MYANMAR', 'MM');
+INSERT INTO public.countries VALUES (154, 'NAMIBIA', 'NA');
+INSERT INTO public.countries VALUES (155, 'NAURU', 'NR');
+INSERT INTO public.countries VALUES (156, 'NEPAL', 'NP');
+INSERT INTO public.countries VALUES (157, 'NETHERLANDS', 'NL');
+INSERT INTO public.countries VALUES (158, 'NEW CALEDONIA', 'NC');
+INSERT INTO public.countries VALUES (159, 'NEW ZEALAND', 'NZ');
+INSERT INTO public.countries VALUES (160, 'NICARAGUA', 'NI');
+INSERT INTO public.countries VALUES (161, 'NIGER', 'NE');
+INSERT INTO public.countries VALUES (162, 'NIGERIA', 'NG');
+INSERT INTO public.countries VALUES (163, 'NIUE', 'NU');
+INSERT INTO public.countries VALUES (164, 'NORFOLK ISLAND', 'NF');
+INSERT INTO public.countries VALUES (165, 'NORTHERN MARIANA ISLANDS', 'MP');
+INSERT INTO public.countries VALUES (166, 'NORWAY', 'NO');
+INSERT INTO public.countries VALUES (167, 'OMAN', 'OM');
+INSERT INTO public.countries VALUES (168, 'PAKISTAN', 'PK');
+INSERT INTO public.countries VALUES (169, 'PALAU', 'PW');
+INSERT INTO public.countries VALUES (170, 'PALESTINIAN TERRITORY, OCCUPIED', 'PS');
+INSERT INTO public.countries VALUES (171, 'PANAMA', 'PA');
+INSERT INTO public.countries VALUES (172, 'PAPUA NEW GUINEA', 'PG');
+INSERT INTO public.countries VALUES (173, 'PARAGUAY', 'PY');
+INSERT INTO public.countries VALUES (174, 'PERU', 'PE');
+INSERT INTO public.countries VALUES (175, 'PHILIPPINES', 'PH');
+INSERT INTO public.countries VALUES (176, 'PITCAIRN', 'PN');
+INSERT INTO public.countries VALUES (177, 'POLAND', 'PL');
+INSERT INTO public.countries VALUES (178, 'PORTUGAL', 'PT');
+INSERT INTO public.countries VALUES (179, 'PUERTO RICO', 'PR');
+INSERT INTO public.countries VALUES (180, 'QATAR', 'QA');
+INSERT INTO public.countries VALUES (181, 'REUNION', 'RE');
+INSERT INTO public.countries VALUES (182, 'ROMANIA', 'RO');
+INSERT INTO public.countries VALUES (183, 'RUSSIAN FEDERATION', 'RU');
+INSERT INTO public.countries VALUES (184, 'RWANDA', 'RW');
+INSERT INTO public.countries VALUES (185, 'SAINT BARTHELEMY', 'BL');
+INSERT INTO public.countries VALUES (186, 'SAINT HELENA, ASCENSION AND TRISTAN DA CUNHA', 'SH');
+INSERT INTO public.countries VALUES (187, 'SAINT KITTS AND NEVIS', 'KN');
+INSERT INTO public.countries VALUES (188, 'SAINT LUCIA', 'LC');
+INSERT INTO public.countries VALUES (189, 'SAINT MARTIN (FRENCH PART)', 'MF');
+INSERT INTO public.countries VALUES (190, 'SAINT PIERRE AND MIQUELON', 'PM');
+INSERT INTO public.countries VALUES (191, 'SAINT VINCENT AND THE GRENADINES', 'VC');
+INSERT INTO public.countries VALUES (192, 'SAMOA', 'WS');
+INSERT INTO public.countries VALUES (193, 'SAN MARINO', 'SM');
+INSERT INTO public.countries VALUES (194, 'SAO TOME AND PRINCIPE', 'ST');
+INSERT INTO public.countries VALUES (195, 'SAUDI ARABIA', 'SA');
+INSERT INTO public.countries VALUES (196, 'SENEGAL', 'SN');
+INSERT INTO public.countries VALUES (197, 'SERBIA', 'RS');
+INSERT INTO public.countries VALUES (198, 'SEYCHELLES', 'SC');
+INSERT INTO public.countries VALUES (199, 'SIERRA LEONE', 'SL');
+INSERT INTO public.countries VALUES (200, 'SINGAPORE', 'SG');
+INSERT INTO public.countries VALUES (201, 'SINT MAARTEN (DUTCH PART)', 'SX');
+INSERT INTO public.countries VALUES (202, 'SLOVAKIA', 'SK');
+INSERT INTO public.countries VALUES (203, 'SLOVENIA', 'SI');
+INSERT INTO public.countries VALUES (204, 'SOLOMON ISLANDS', 'SB');
+INSERT INTO public.countries VALUES (205, 'SOMALIA', 'SO');
+INSERT INTO public.countries VALUES (206, 'SOUTH AFRICA', 'ZA');
+INSERT INTO public.countries VALUES (207, 'SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS', 'GS');
+INSERT INTO public.countries VALUES (208, 'SPAIN', 'ES');
+INSERT INTO public.countries VALUES (209, 'SRI LANKA', 'LK');
+INSERT INTO public.countries VALUES (210, 'SUDAN', 'SD');
+INSERT INTO public.countries VALUES (211, 'SURINAME', 'SR');
+INSERT INTO public.countries VALUES (212, 'SVALBARD AND JAN MAYEN', 'SJ');
+INSERT INTO public.countries VALUES (213, 'SWAZILAND', 'SZ');
+INSERT INTO public.countries VALUES (214, 'SWEDEN', 'SE');
+INSERT INTO public.countries VALUES (215, 'SWITZERLAND', 'CH');
+INSERT INTO public.countries VALUES (216, 'SYRIAN ARAB REPUBLIC', 'SY');
+INSERT INTO public.countries VALUES (217, 'TAIWAN, PROVINCE OF CHINA', 'TW');
+INSERT INTO public.countries VALUES (218, 'TAJIKISTAN', 'TJ');
+INSERT INTO public.countries VALUES (219, 'TANZANIA, UNITED REPUBLIC OF', 'TZ');
+INSERT INTO public.countries VALUES (220, 'THAILAND', 'TH');
+INSERT INTO public.countries VALUES (221, 'TIMOR-LESTE', 'TL');
+INSERT INTO public.countries VALUES (222, 'TOGO', 'TG');
+INSERT INTO public.countries VALUES (223, 'TOKELAU', 'TK');
+INSERT INTO public.countries VALUES (224, 'TONGA', 'TO');
+INSERT INTO public.countries VALUES (225, 'TRINIDAD AND TOBAGO', 'TT');
+INSERT INTO public.countries VALUES (226, 'TUNISIA', 'TN');
+INSERT INTO public.countries VALUES (227, 'TURKEY', 'TR');
+INSERT INTO public.countries VALUES (228, 'TURKMENISTAN', 'TM');
+INSERT INTO public.countries VALUES (229, 'TURKS AND CAICOS ISLANDS', 'TC');
+INSERT INTO public.countries VALUES (230, 'TUVALU', 'TV');
+INSERT INTO public.countries VALUES (231, 'UGANDA', 'UG');
+INSERT INTO public.countries VALUES (232, 'UKRAINE', 'UA');
+INSERT INTO public.countries VALUES (233, 'UNITED ARAB EMIRATES', 'AE');
+INSERT INTO public.countries VALUES (234, 'UNITED KINGDOM', 'GB');
+INSERT INTO public.countries VALUES (235, 'UNITED STATES', 'US');
+INSERT INTO public.countries VALUES (236, 'UNITED STATES MINOR OUTLYING ISLANDS', 'UM');
+INSERT INTO public.countries VALUES (237, 'URUGUAY', 'UY');
+INSERT INTO public.countries VALUES (238, 'UZBEKISTAN', 'UZ');
+INSERT INTO public.countries VALUES (239, 'VANUATU', 'VU');
+INSERT INTO public.countries VALUES (240, 'VATICAN CITY STATE', 'VCS');
+INSERT INTO public.countries VALUES (241, 'VENEZUELA, BOLIVARIAN REPUBLIC OF', 'VE');
+INSERT INTO public.countries VALUES (242, 'VIET NAM', 'VN');
+INSERT INTO public.countries VALUES (243, 'VIRGIN ISLANDS, BRITISH', 'VG');
+INSERT INTO public.countries VALUES (244, 'VIRGIN ISLANDS, U.S.', 'VI');
+INSERT INTO public.countries VALUES (245, 'WALLIS AND FUTUNA', 'WF');
+INSERT INTO public.countries VALUES (246, 'WESTERN SAHARA', 'EH');
+INSERT INTO public.countries VALUES (247, 'YEMEN', 'YE');
+INSERT INTO public.countries VALUES (248, 'ZAMBIA', 'ZM');
+INSERT INTO public.countries VALUES (249, 'ZIMBABWE', 'ZW');
+
+
+--
+-- TOC entry 4534 (class 0 OID 16667)
+-- Dependencies: 283
+-- Data for Name: currency; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.currency VALUES (1, 'EUR', 'EUR');
+INSERT INTO public.currency VALUES (2, 'USD', 'USD');
+INSERT INTO public.currency VALUES (3, 'CZK', 'CZK');
+
+
+--
+-- TOC entry 4548 (class 0 OID 16711)
+-- Dependencies: 297
+-- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.groups VALUES (1, 'Firma x', 3, 'X', 56);
+
+
+
+
+
+--
+-- TOC entry 4515 (class 0 OID 16578)
+-- Dependencies: 264
+-- Data for Name: company; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.company VALUES (1, 'Firma x', NULL, NULL, NULL, true, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+
+
+--
+-- TOC entry 4590 (class 0 OID 16853)
+-- Dependencies: 339
+-- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.project VALUES (1, 'Projekt 1', 2, NULL, '', 1, true, 1, 'P1', 1, 0);
+
+
+
+--
+-- TOC entry 4626 (class 0 OID 16971)
+-- Dependencies: 375
+-- Data for Name: unit; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+INSERT INTO public.unit VALUES (1, 'km', 1);
+INSERT INTO public.unit VALUES (2, 'm', 1);
+INSERT INTO public.unit VALUES (3, 'm2', 1);
+INSERT INTO public.unit VALUES (4, 'm3', 1);
+INSERT INTO public.unit VALUES (5, 'g', 2);
+INSERT INTO public.unit VALUES (6, 'kg', 2);
+INSERT INTO public.unit VALUES (7, 't', 2);
+INSERT INTO public.unit VALUES (8, 'pcs', 3);
+INSERT INTO public.unit VALUES (9, 'hour', 4);
+INSERT INTO public.unit VALUES (10, 'day', 4);
+INSERT INTO public.unit VALUES (11, 'week', 4);
+INSERT INTO public.unit VALUES (12, 'month', 4);
+INSERT INTO public.unit VALUES (13, 'quarter', 4);
+INSERT INTO public.unit VALUES (14, 'year', 4);
+INSERT INTO public.unit VALUES (15, 'item', 3);
+INSERT INTO public.unit VALUES (16, 'mW', 5);
+INSERT INTO public.unit VALUES (17, 'W', 5);
+INSERT INTO public.unit VALUES (18, 'kW', 5);
+INSERT INTO public.unit VALUES (19, 'MW', 5);
+INSERT INTO public.unit VALUES (20, 'GW', 5);
+
+
+
+--
+-- TOC entry 4622 (class 0 OID 16957)
+-- Dependencies: 371
+-- Data for Name: trade; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+-- consultants
+INSERT INTO public.trade VALUES (1, 1, 'A', 'Consultants', NULL, 1);
+INSERT INTO public.trade VALUES (2, 1, 'AR', 'Architects', 1, 2);
+INSERT INTO public.trade VALUES (3, 1, 'PM', 'Project managers', 1, 2);
+INSERT INTO public.trade VALUES (4, 1, 'SU', 'Surveyors', 1, 2);
+INSERT INTO public.trade VALUES (5, 1, 'ACH', 'Archaelog', 1, 2);
+
+-- public
+INSERT INTO public.trade VALUES (6, 1, 'PU', 'Public bodies', NULL, 1);
+INSERT INTO public.trade VALUES (7, 1, 'AU', 'Authorities', 6, 2);
+INSERT INTO public.trade VALUES (8, 1, 'CI', 'City', 6, 2);
+
+-- building
+INSERT INTO public.trade VALUES (9, 1, 'CON', 'Construction', NULL, 1);
+INSERT INTO public.trade VALUES (10, 1, 'EX', 'Excavation', 9, 2);
+INSERT INTO public.trade VALUES (11, 1, 'FN', 'Foundation', 9, 2);
+INSERT INTO public.trade VALUES (12, 1, 'CS', 'Concrete Structure', 9, 2);
+INSERT INTO public.trade VALUES (13, 1, 'SS', 'Steel Structure', 9, 2);
+INSERT INTO public.trade VALUES (14, 1, 'FA', 'Facades', 9, 2);
+INSERT INTO public.trade VALUES (15, 1, 'EL', 'Electrical', 9, 2);
+INSERT INTO public.trade VALUES (16, 1, 'ME', 'Mechanical', 9, 2);
+INSERT INTO public.trade VALUES (17, 1, 'FL', 'Flooring', 9, 2);
+INSERT INTO public.trade VALUES (18, 1, 'FO', 'Fitout', 9, 2);
+INSERT INTO public.trade VALUES (19, 1, 'GR', 'Greenery', 9, 2);
+INSERT INTO public.trade VALUES (20, 1, 'IN', 'Interior', 9, 2);
+INSERT INTO public.trade VALUES (21, 1, 'GC', 'General Contractors', 9, 2);
+
+-- other
+INSERT INTO public.trade VALUES (22, 1, 'CLI', 'Clients', NULL, 1);
+INSERT INTO public.trade VALUES (23, 1, 'FIN', 'Financial', NULL, 1);
+INSERT INTO public.trade VALUES (24, 1, 'BA', 'Bank', 23, 2);
+INSERT INTO public.trade VALUES (25, 1, 'IN', 'Insurance', 23, 2);
+INSERT INTO public.trade VALUES (26, 1, 'MA', 'Marketing', NULL, 1);
+INSERT INTO public.trade VALUES (27, 1, 'PR', 'Public relations', 26, 2);
+
+
+
+-- project documents
+INSERT INTO public.filecategory VALUES (1, 'Project documents', '1', NULL, 1, 1);
+INSERT INTO public.filecategory VALUES (2, 'Permits', '1.2', 1, 1, 2);
+INSERT INTO public.filecategory VALUES (3, 'EIA', '1.2.1', 2, 1, 3);
+INSERT INTO public.filecategory VALUES (4, 'Planning permit', '1.2.2', 2, 1, 3);
+INSERT INTO public.filecategory VALUES (5, 'Building Permit', '1.2.3', 2, 1, 3);
+INSERT INTO public.filecategory VALUES (6, 'Demolition Permit', '1.2.4', 2, 1, 3);
+INSERT INTO public.filecategory VALUES (7, 'Other Permit', '1.2.5', 2, 1, 3);
+INSERT INTO public.filecategory VALUES (8, 'Use Permit', '1.2.6', 2, 1, 3);
+
+INSERT INTO public.filecategory VALUES (9, 'Drawings', '1.3', 1, 1, 2);
+
+INSERT INTO public.filecategory VALUES (10, 'Reports', '1.4', 1, 1, 2);
+INSERT INTO public.filecategory VALUES (11, 'Cost Reports', '1.4.1', 10, 1, 3);
+INSERT INTO public.filecategory VALUES (12, 'Progress Reports - External', '1.4.2', 10, 1, 3);
+INSERT INTO public.filecategory VALUES (13, 'Progress Reports - Internal', '1.4.3', 10, 1, 3);
+INSERT INTO public.filecategory VALUES (14, 'Other Reports', '1.4.4', 10, 1, 3);
+
+INSERT INTO public.filecategory VALUES (15, 'Time schedules', '1.5', 1, 1, 2);
+INSERT INTO public.filecategory VALUES (16, 'Budgets', '1.6', 1, 1, 2);
+INSERT INTO public.filecategory VALUES (17, 'Table of areas', '1.7', 1, 1, 2);
+
+INSERT INTO public.filecategory VALUES (18, 'Project description', '1.1', 1, 1, 2);
+
+INSERT INTO public.filecategory VALUES (19, 'Contractual documents', '2', NULL, 1, 1);
+INSERT INTO public.filecategory VALUES (20, 'Contracts', '2.1', 19, 1, 2);
+INSERT INTO public.filecategory VALUES (21, 'Amendments', '2.2', 19, 1, 2);
+INSERT INTO public.filecategory VALUES (22, 'Change orders', '2.3', 19, 1, 2);
+INSERT INTO public.filecategory VALUES (23, 'Change Requests', '2.7', 19, 1, 1);
+
+INSERT INTO public.filecategory VALUES (24, 'Invoices', '2.4', 19, 1, 2);
+INSERT INTO public.filecategory VALUES (25, 'Payment certificates', '2.4.1', 24, 1, 3);
+INSERT INTO public.filecategory VALUES (26, 'Interim Certificates', '2.4.2', 24, 1, 3);
+INSERT INTO public.filecategory VALUES (27, 'Retention Release', '2.4.3', 24, 1, 3);
+
+
+INSERT INTO public.filecategory VALUES (28, 'Correspondence Out', '2.6', 19, 1, 2);
+INSERT INTO public.filecategory VALUES (29, 'Correspondence In', '2.5', 19, 1, 2);
+INSERT INTO public.filecategory VALUES (30, 'Corporate documents', '3', NULL, 1, 1);
+
+
+
+INSERT INTO public.tables VALUES (1, 'company');
+INSERT INTO public.tables VALUES (2, 'contract');
+INSERT INTO public.tables VALUES (3, 'file');
+INSERT INTO public.tables VALUES (4, 'project');
+INSERT INTO public.tables VALUES (5, 'budget');
+INSERT INTO public.tables VALUES (6, 'budgetcategory');
+INSERT INTO public.tables VALUES (7, 'budgetcontract');
+INSERT INTO public.tables VALUES (8, 'budgetitem');
+INSERT INTO public.tables VALUES (9, 'budgetitemcontractitem');
+INSERT INTO public.tables VALUES (10, 'filecategory');
+INSERT INTO public.tables VALUES (11, 'contractcategory');
+INSERT INTO public.tables VALUES (12, 'contractitem');
+INSERT INTO public.tables VALUES (13, 'currency');
+INSERT INTO public.tables VALUES (14, 'address');
+INSERT INTO public.tables VALUES (15, 'person');
+INSERT INTO public.tables VALUES (16, 'personcompany');
+INSERT INTO public.tables VALUES (17, 'personteam');
+INSERT INTO public.tables VALUES (18, 'team');
+INSERT INTO public.tables VALUES (19, 'retention');
+INSERT INTO public.tables VALUES (20, 'milestone');
+INSERT INTO public.tables VALUES (21, 'milestonetype');
+INSERT INTO public.tables VALUES (22, 'task');
+INSERT INTO public.tables VALUES (23, 'taskperson');
+INSERT INTO public.tables VALUES (24, 'taskteam');
+INSERT INTO public.tables VALUES (25, 'timesheetitem');
+INSERT INTO public.tables VALUES (26, 'userrole');
+INSERT INTO public.tables VALUES (27, 'anticipated');
+INSERT INTO public.tables VALUES (28, 'invoiceitem');
+INSERT INTO public.tables VALUES (29, 'transfer');
+INSERT INTO public.tables VALUES (30, 'valuetoplace');
+INSERT INTO public.tables VALUES (31, 'interimitem');
+INSERT INTO public.tables VALUES (32, 'invoice');
+INSERT INTO public.tables VALUES (33, 'budgetinvoice');
+INSERT INTO public.tables VALUES (34, 'changeorder');
+INSERT INTO public.tables VALUES (35, 'changeorderitem');
+INSERT INTO public.tables VALUES (36, 'companyaddress');
+INSERT INTO public.tables VALUES (37, 'amendmentitem');
+INSERT INTO public.tables VALUES (38, 'amendment');
+INSERT INTO public.tables VALUES (39, 'interim');
+INSERT INTO public.tables VALUES (40, 'adjustment');
+INSERT INTO public.tables VALUES (41, 'userprofile');
+INSERT INTO public.tables VALUES (42, 'cashflow');
+INSERT INTO public.tables VALUES (43, 'cashflowcontract');
+INSERT INTO public.tables VALUES (44, 'cashflowitem');
+INSERT INTO public.tables VALUES (45, 'cashflowvaluetoplace');
+INSERT INTO public.tables VALUES (46, 'cashflowanticipated');
+INSERT INTO public.tables VALUES (47, 'changerequest');
+INSERT INTO public.tables VALUES (48, 'changerequestitem');
+INSERT INTO public.tables VALUES (49, 'changerequestitemrevision');
+INSERT INTO public.tables VALUES (50, 'tableareas');
+INSERT INTO public.tables VALUES (51, 'object');
+INSERT INTO public.tables VALUES (52, 'objectcode');
+INSERT INTO public.tables VALUES (53, 'users');
+INSERT INTO public.tables VALUES (54, 'groups');
+INSERT INTO public.tables VALUES (55, 'internals');
+INSERT INTO public.tables VALUES (56, 'companytrade');
+INSERT INTO public.tables VALUES (57, 'trade');
+INSERT INTO public.tables VALUES (58, 'canticipated');
+INSERT INTO public.tables VALUES (59, 'downpayment');
+INSERT INTO public.tables VALUES (60, 'downpaymentitem');
+INSERT INTO public.tables VALUES (61, 'vat');
+INSERT INTO public.tables VALUES (62, 'costestimate');
+INSERT INTO public.tables VALUES (63, 'costestimatecategory');
+INSERT INTO public.tables VALUES (64, 'costestimateitem');
+INSERT INTO public.tables VALUES (65, 'unit');
+INSERT INTO public.tables VALUES (66, 'calculation');
+INSERT INTO public.tables VALUES (67, 'calculationitem');
+INSERT INTO public.tables VALUES (68, 'predefinedquantitycategory');
+INSERT INTO public.tables VALUES (69, 'predefinedquantity');
+INSERT INTO public.tables VALUES (70, 'projectobject');
+INSERT INTO public.tables VALUES (71, 'predefinedquantityoperation');
+INSERT INTO public.tables VALUES (72, 'predefinedunitpricecategory');
+INSERT INTO public.tables VALUES (73, 'predefinedunitprice');
+INSERT INTO public.tables VALUES (74, 'predefinedunitpriceoperation');
+INSERT INTO public.tables VALUES (75, 'land');
+INSERT INTO public.tables VALUES (76, 'projectobjectland');
+INSERT INTO public.tables VALUES (77, 'projectstage');
+INSERT INTO public.tables VALUES (78, 'projectobjectstage');
+INSERT INTO public.tables VALUES (79, 'boq');
+INSERT INTO public.tables VALUES (80, 'boqcategory');
+INSERT INTO public.tables VALUES (81, 'boqitem');
+INSERT INTO public.tables VALUES (82, 'f2');
+INSERT INTO public.tables VALUES (83, 'f2item');
+INSERT INTO public.tables VALUES (84, 'countries');
+INSERT INTO public.tables VALUES (85, 'timescheduleitemlink');
+INSERT INTO public.tables VALUES (86, 'timeschedule');
+INSERT INTO public.tables VALUES (87, 'timeschedulecategory');
+INSERT INTO public.tables VALUES (88, 'timescheduleitem');
+INSERT INTO public.tables VALUES (89, 'budgettimeschedule');
+INSERT INTO public.tables VALUES (90, 'budgetitemtimescheduleitem');
+
+
+
+INSERT INTO public.language VALUES (1, 'EN');
+INSERT INTO public.language VALUES (2, 'CZ');
+INSERT INTO public.language VALUES (3, 'SK');
+
+
+INSERT INTO public.milestonetype VALUES (1, 'AQ', 'Aquisition');
+INSERT INTO public.milestonetype VALUES (2, 'DE', 'Design');
+INSERT INTO public.milestonetype VALUES (3, 'PE', 'Permit');
+INSERT INTO public.milestonetype VALUES (4, 'HO', 'Handover');
+INSERT INTO public.milestonetype VALUES (5, 'CO', 'Construction');
+INSERT INTO public.milestonetype VALUES (6, 'OP', 'Operation');
+INSERT INTO public.milestonetype VALUES (7, 'VA', 'Various');
+
+
+INSERT INTO public.projectstage VALUES (1, 'Past', 1);
+INSERT INTO public.projectstage VALUES (2, 'Planned', 1);
+
+
+
+INSERT INTO public.users VALUES (1, 'Peter', 'Černák', 'petr.cernak', '55295529', 9, 2, 'petr.cernak@me.com', 1, 1, 1, NULL, NULL, NULL, NULL, 1, true, 25, 4, 10, 0, false, true);
