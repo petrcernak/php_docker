@@ -29,9 +29,9 @@ services:
     image: dpage/pgadmin4:latest
     environment:
       # Default email for pgAdmin 4
-      PGADMIN_DEFAULT_EMAIL: petr.cernak@me.com.com
+      PGADMIN_DEFAULT_EMAIL: admin@email.com
       # Password for accessing pgAdmin 4
-      PGADMIN_DEFAULT_PASSWORD: 55295529
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
     ports:
       # Expose pgadmin on 5050 
       - "5050:80"
